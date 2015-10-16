@@ -1,0 +1,149 @@
+% per commentare una riga mettere % al suo inizio
+% per s-commentare una riga (ossia attivarla) togliere il % al suo inizio
+%
+\documentclass[pdfa% formato PDF/A, obbligatorio per l'archiviazione delle tesi di Polito
+,cucitura%lascia margine per la rilegatura
+%,twoside% per stampa fronte-retro (fortemente consigliato per tesi voluminose, opzionale per le altre)
+%,12pt% font più grande (12pt) rispetto a quello normalmente usato (11pt)
+]{toptesi}
+%
+% Commentare le righe seguenti se NON si è specificata l'opzione "pdfa"
+\hypersetup{%
+    pdfpagemode={UseOutlines},
+    bookmarksopen,
+    pdfstartview={FitH},
+    colorlinks,
+    linkcolor={blue},
+    citecolor={red},
+    urlcolor={blue}
+  }
+% \documentclass[11pt,twoside,oldstyle,autoretitolo,classica,greek]{toptesi}
+% \usepackage[or]{teubner}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Esempio di composizione di tesi di laurea.
+%
+% Questo esempio e' stato preparato inizialmente 13-marzo-1989
+% e poi e' stato modificato via via che TOPtesi andava
+% arricchendosi di altre possibilita'.
+%
+% Nel seguito laurea "quinquennale" sta anche per "specialistica" o "magistrale"
+
+% Cambiare encoding a piacere; oppure non caricare nessun encoding se si usano
+% solo caratteri a 7 bit (ASCII) nei file d'entrata.
+%
+\usepackage[latin1]{inputenc}% IMPORTANTE! usare codifica ISO-8859-1 per le lettere accentate
+
+
+%
+%\chapterbib %solo per vedere che cosa succede; e' preferibile comporre una sola bibliografia
+%\AdvisorName{Supervisors}
+%\newtheorem{osservazione}{Osservazione}% Standard LaTeX
+
+%\usepackage[a-1b]{pdfx}
+%\hypersetup{%
+%    pdfpagemode={UseOutlines},
+%    bookmarksopen,
+%    pdfstartview={FitH},
+%    colorlinks,
+%    linkcolor={blue},
+%    citecolor={green},
+%    urlcolor={blue}
+%  }
+
+%
+% per numerare e far comparire nell'indice anche le sezioni di quarto livello
+% SCONSIGLIATO! da usarsi solo in caso di estrema necessità
+%\setcounter{secnumdepth}{4}% section-numbering-depth
+%\setcounter{tocdepth}{4}% TOC-numbering-depth (TOC=Table-Of-Content)
+
+%\setbindingcorrection{3mm}
+
+% Set default language (if not defined, then is "italiano"
+% To switch to other language during writing, use \selectlanguage{language}
+\english
+
+\input{sections/frontespizio/frontespizio.tex}
+
+\input{commands/commands.tex}
+
+\begin{document}
+
+
+
+\errorcontextlines=9
+
+\expandafter\ifx\csname StileTrieste\endcsname\relax
+    \frontespizio
+\else
+    \paginavuota
+    \begin{dedica}
+        A mio padre
+
+        \textdagger\ A mio nonno Pino
+    \end{dedica}
+    \tomo
+\fi
+
+% COMMENT OUT TO REMOVE THE FOLLOWING SECTIONS
+
+% prints summary of the content
+\input{sections/summary/summary.tex}
+
+% prints acknowledgements and special thanks
+\input{sections/ack/acknowledgements.tex}
+
+
+%\tablespagetrue % normalmente questa riga non serve ed e' commentata
+%\figurespagetrue % normalmente questa riga non serve ed e' commentata
+
+% prints the thesis index section
+\indici
+
+% start chapter enumeration
+\mainmatter
+
+\chapter{Introduction}
+\input{latex.tex}
+%\input{sections/chapter1/introduction.tex}
+
+\chapter{Related work and state of the art}
+\input{sections/chapter2/stateoftheart.tex}
+
+\chapter{Proposed solution}
+\input{sections/chapter3/solution.tex}
+
+\chapter{Experimental results}
+\input{sections/chapter4/results.tex}
+
+\chapter{Conclusions and future work}
+\input{sections/chapter5/conclusions.tex}
+
+
+
+Discutere in questo capitolo come è stata progettata la soluzione al problema trattato nella tesi, indicando anche se sono stati valutati vari possibili approcci o soluzioni pre-esistenti e giustificando le proprie scelte. Descrivere quindi la soluzione vera e propria.
+
+Nel caso sia stato sviluppato del software non triviale, è buona norma dedicargli tre sezioni:
+\begin{itemize}
+\item architettura dell'applicazione (interazioni con gli utenti e con altri sistemi, moduli logici, flussi dati interni ed esterni);
+\item manuale dello sviluppatore (descrizione dei moduli, degli algoritmi, delle interfacce e delle strutture dati);
+\item manuale utente (come installare ed usare il programma, interfacce, comandi, dati in input ed in output).
+\end{itemize}
+Nel caso di software molto voluminoso, queste tre sezioni possono diventare tre capitoli separati.
+
+\chapter{Risultati}
+
+Inserire in questo capitolo i risultati conseguiti, cercando di analizzarli -- se possibile -- in modo quantitativo.
+
+
+\chapter{Conclusioni}
+
+Qui si inseriscono brevi conclusioni sul lavoro svolto, senza ripetere inutilmente il sommario.
+
+Si possono evidenziare i punti di forza e quelli di debolezza, nonché i possibili sviluppi futuri o attività da svolgere per migliorare i risultati.
+
+% print bibliography
+\input{sections/biblio/bibliography.tex}
+
+
+\end{document}
