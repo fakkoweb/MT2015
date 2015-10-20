@@ -1,27 +1,83 @@
 
 
 
-\section{Assembly of the headset}
+\section{Gear selection}
 
-\subsection{Device selection}
+\subsection{HMD and head tracking}
 
-\subsection{Head model: IPD and ETN parameters}
+\subsection{Camera for stereo}
+low cost
+best resolution/fps rate
 
-\subsection{Rendering pipeline for HMDs}
+\subsection{3D Engine for VR environment}
+OculusSDK
+Ogre3D
 
-\subsection{Rendering pipeline for HMDs}
+\subsection{Libraries for CV and AR}
+OpenCV + tbb + cuda
+arUco
 
-\subsection{Tackling lag: Oculus Rift timewarping}
+
+
+
+\section{Stereo Rig design}
+
+\subsection{wide-angle lens configuration}
+TOED-IN
+(-) edge violation, "see through a window" effect (lower immersion)
+(-) keystoning effect at edges, but reducible
+(+) compensate the low stereo cues area of parallel config
+(+) easy to implement
+(+) good vertical disparities (VSR)
+
+\subsection{fish-eye lens configuration}
+PARALLEL with high fov
+(+) no edge violation (close objects are welcome, high immersion)
+(+) no keystoning
+(+) no need to toe-in to compensate low fov..
+(-) .. but still can be very distorted at edge (need high quality lens!)
+(-) no stereo cues at the edge of the image
+(-) hard to implement (due to additional undistortion)
+(+) good vertical disparities (VSR)
+
+\subsection{3D printed prototype (?)}
+
+
+\section{Application pipeline}
+
+
+\section{Camera image pipeline}
+
+\subsection{Defining capture data}
+
+\subsection{Overcoming }
+
+\subsection{Undistort, feature extraction, image enhancement}
+
+\subsection{Frame synchronization}
+
+\section{Rendering pipeline}
+
+\subsection{Enhanced head model}
+
+\subsection{Distortion handling}
+
+\subsection{3D scene image to eye}
+
+\subsection{Camera image to 3D Scene}
+
+\subsubsection{pin-hole model}
+\subsubsection{fish-eye model}
 
 
 
 \section{Increasing immersivity}
 
+\subsection{Higher frame rate: decreasing image resolution}
+
 \subsection{Skybox}
 
-\subsection{Real-time image pose compensation}
-
-\subsection{Application of Fish-eye lenses}
+\subsection{Fish-eye lenses}
 
 \subsection{Virtual nose}
 
