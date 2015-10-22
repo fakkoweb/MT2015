@@ -19,8 +19,60 @@ arUco
 
 
 
+%\section{Application pipeline}
+
+
+\section{Camera image pipeline}
+
+\subsection{Frame timing and pose estimation}
+TIME\\
+Approximate: simply get time before grab new frame\\
+Precise-auto: compute image-to-grab delay from frame timestamp (if available)\\
+Precise-manual: set image-to-grab delay manually\\
+POSE\\
+Approximate: get the current pose before grab new frame\\
+Predicted: predict the pose in the past by a delay\\
+Precise: get the current pose a delay before calling grab()\\
+\subsection{Image elaboration}
+
+\subsubsection{Lens distortion correction}
+\subsubsection{Marker detection}
+reference mapping between Ogre and arUco\\
+pivot offset to place the object on the marker\\
+undistort tolerance\\
+
+\subsubsection{Image effect/enhancement}
+
+\subsubsection{A Cuda-ready pipeline}
+
+\subsection{Frame synchronization}
+
+\section{3D Rendering pipeline}
+
+\subsection{Enhanced head model}
+
+\subsection{Virtual eye render mapping to real eye}
+
+\subsection{Camera image mapping to virtual eye}
+
+Suppose camera is in the same position of the eye (as aruco) \\
+aruco detected object must be placed relative to the scene (after detected) \\
+
+
+better marker detection with two cameras? who cares \\
+
+
+
+\subsubsection{pin-hole camera model}
+\subsubsection{fish-eye camera model}
+
+\subsection{Image stabilization}
+Image pose application \\
+Head stabilization \\
+Eye stabilization \\
 
 \section{Stereo Rig design}
+alignment of cameras is critical!
 
 \subsection{wide-angle lens configuration}
 TOED-IN
@@ -43,42 +95,3 @@ PARALLEL with high fov
 \subsection{3D printed prototype (?)}
 
 
-\section{Application pipeline}
-
-
-\section{Camera image pipeline}
-
-\subsection{Defining capture data}
-
-\subsection{Overcoming }
-
-\subsection{Undistort, feature extraction, image enhancement}
-
-\subsection{Frame synchronization}
-
-\section{Rendering pipeline}
-
-\subsection{Enhanced head model}
-
-\subsection{Distortion handling}
-
-\subsection{3D scene image to eye}
-
-\subsection{Camera image to 3D Scene}
-
-\subsubsection{pin-hole model}
-\subsubsection{fish-eye model}
-
-
-
-\section{Increasing immersivity}
-
-\subsection{Higher frame rate: decreasing image resolution}
-
-\subsection{Skybox}
-
-\subsection{Fish-eye lenses}
-
-\subsection{Virtual nose}
-
-\subsection{Virtual hands}

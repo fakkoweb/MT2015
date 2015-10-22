@@ -13,7 +13,7 @@
     bookmarksopen,
     pdfstartview={FitH},
     colorlinks,
-    linkcolor={blue},
+    linkcolor={black},
     citecolor={red},
     urlcolor={blue}
   }
@@ -104,8 +104,8 @@
 \mainmatter
 
 \chapter{Introduction}
-\input{latex.tex}
-%\input{sections/chapter1/introduction.tex}
+%\input{latex.tex}
+\input{sections/chapter1/introduction.tex}
 
 \chapter{Related work and state of the art}
 \input{sections/chapter2/stateoftheart.tex}
@@ -120,6 +120,9 @@
 \input{sections/chapter5/conclusions.tex}
 
 
+
+
+\iffalse
 
 Discutere in questo capitolo come � stata progettata la soluzione al problema trattato nella tesi, indicando anche se sono stati valutati vari possibili approcci o soluzioni pre-esistenti e giustificando le proprie scelte. Descrivere quindi la soluzione vera e propria.
 
@@ -141,6 +144,8 @@ Inserire in questo capitolo i risultati conseguiti, cercando di analizzarli -- s
 Qui si inseriscono brevi conclusioni sul lavoro svolto, senza ripetere inutilmente il sommario.
 
 Si possono evidenziare i punti di forza e quelli di debolezza, nonch� i possibili sviluppi futuri o attivit� da svolgere per migliorare i risultati.
+
+\fi
 
 % print bibliography
 \input{sections/biblio/bibliography.tex}
