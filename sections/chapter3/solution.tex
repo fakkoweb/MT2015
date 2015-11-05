@@ -2,7 +2,8 @@
 
 
 \section{Gear selection}
-
+For testing in our project, we chose products available to the public that fits best our requirements within reasonable budgets. Software libraries involved focus on simplicity, future integration and come in part as a consequence of some of chosen assets. The table below [figure N] matches hardware/software used with project goals.
+\iffalse
 \subsection{HMD and head tracking}
 
 \subsection{Camera for stereo}
@@ -16,15 +17,163 @@ Ogre3D
 \subsection{Libraries for CV and AR}
 OpenCV + tbb + cuda
 arUco
+\fi
 
+\section{Stereo Rig design}
+Assumption is that the two cameras have same technical characteristics and no distortion (or were previously calibrated). According to Paul Burke [24], a good rule of thumb for building up stereoscopic camera rig is to choose camera aperture and focal lenght first, depending on the the distance from the lens we decide to be on focus. Supposing we have a planar display, it is convenient to keep the zero-parallax plane at the same distance from the viewer, so that convergence and accomodation will keep coherent when watching the part of the scene on focus; this implies that to get convergence right with a parallel setup, one could shift the cameras, the lenses or later the image on the screen, with all the consequences we already discussed. In the case of a toed-in setup, convergence is immediately defined by their tilting angle, with no need for subsequent image trim but at the cost of keystoning.\\
+One great advantage in using a HMD with higher FOV than the cameras is that it is not really a problem to translate the image: once each camera’s FOV is correctly mapped into user’s view plane, each frame can be shifted or scaled without subsequent loss of FOV. This allows to dynamically adjust convergence after capture, for any stereo rig configuration. Moreover, the nature of 3D environment gives us the ability to easily correct keystoning, by either rotating or scaling the plane image it is projected into, instead of applying such transformation on the image [25]. The main reason left to favour a toed-in over a parallel setup for video see-through in high FOV HMD is the limits of the area covered by the insersection of the frustrums of each camera. If we plan to get stereoscopic effect on objects very close to the user, those objects also must fall in both frustrums. Excluding the more complex off-axis setup, this is only feasible in a parallel setup by raising cameras’ FOV, which means switching lenses and introducing higher distortion, or manually tilting them inwards.\\
+Another common norm for stereo video footage is to use 1/30 of the zero-parallax distance as a measure for camera separation [26]. In first-person gaming, one commonly used strategy is to use the height of the camera from the virtual ground as zero-parallax distance and then calculate suggested separation: the result is a rough approximation of the proportions we have in real life. In our case, however, we prefer to keep camera separation as close to IPD we want cameras to act as user’s eyes and to be percieved as such in manipulation tasks. The zero-parallax distance is then chosen according to the working distance, ignoring the formula considered above (that is mainly meant for addressing issues with classic physical displays), but still providing the option for slight adjustment.\\
+As for stereo computer vision analysis, stereo calibration can be performed and algorithms can run independently from how images will be displayed to the user. It is anyhow a crucial point to examine in depth how displayed image and the information extracted from it are kept consistent in the 3D environment and in which way they can interact. Assuming we perform detection and place a virtual object in the VR scene accordingly, how can we guarantee that it will be overlapped to the image in the right spot at all times?\\
+The ideal case would be having both virtual and real stereo rigs in off-axis configuration, having real cameras coincident with real pupils. Proposed setup uses off-axis configuration for virtual rig, as also suggested by Oculus documentation and provided by SDK, and toe-in and parallel for the physical rig; in the specific, for standard and wide-angle type lenses (modeled with pinhole model) cameras are toed-in, for fisheye type lenses instead they are parallel. We will express the reasons for this choice in the following paragraphs.
+To keep each camera closest to each eye and minimize virtual sickness [27], constraints implied for the physical cameras are:
+\begin{itemize}
+\item keeping them at IPD distance (average human reference is 0.064m);
+\item placing rig at minimum distance from the eyes allowed by the HMD.
+\end{itemize}
+The configuration chosen to conduct our experiments is with cameras placed directly in front of user’s eyes.
 
+\subsection{wide-angle lens configuration}
+Wide-angle lenses, even with high distortion, still obey to pin-hole camera model. Horizontal FOV for such lenses may vary from 45-50 to 90 degrees with lens distortion increasing ad the edges. This category can partially or completely cover horizontal FOV of a video HMD. One more problem is that these devices declare a vertical FOV that is valid only when the whole sensor surface is used. This is always the case when capturing one single image: it will be memorized in camera buffer and then transmitted to whatever machine requiring it, in an offline fashion. When requiring a constant stream of high definition images, however, device meets buffering, encoding and trasmission speed limitations. For istance, our model is a high end consumer usb 2.0 webcam offering up to 1920x1080 (16:9) resolution at a stable 30 fps stream; to achieve this result, our camera not only uses a fraction of the sensor (actual sensor is a 2304x1536 (4:3) so it uses the widest subset of pixels forming a 16:9 image for live capture), but also downscales and encodes in h264 captured frames. Similar performances in usb 3.0 devices leads to much higher cost for industrial applications [28,29].\\
+Such frame displayed in front of one eye in the rift covers most of its horizontal range, but only about a half of vertical. A solution to this problem has been proposed by William Steptoe [30]: first match per-eye resolution of the HMD with the sensor’s, then replace current lens with one with smaller focal length. This implies rotating each camera by 90 degrees, so that the new 9:16 configuration matches closely Oculus Rift DK2 per eye resolution of 960x1080. This is true, although lenses allowing to match camera vertical FOV with Oculus horizontal are very hard to find and would introduce too high distortion and information loss at the edges; it gets indeed coverage of DK1 vertical FOV but was it does not exploit all its horizontal capabilities (figure). Furthermore, there are two major reasons why we chose to stick with horizontal cameras:
+\begin{itemize}
+\item even assuming possible to cover eye horizontal angles with rotated sensor, there would be a substantial image loss on the vertical, since camera horizontal FOV would have reached much more than needed angle;
+\item it is more likely to the user to rotate his head and eyes to the right and left; with non-rotated sensor, stock lens is enough to cover each eye’s horizontal, while an enhanced lens can improve vertical coverage and the portion of horizontal out of the border is still useful information that can cope with capture-display latency (discussed in paragraph N);
+\item stock lens provides an efficient mechanism of auto-focus that comes in handy with up-close real object observation; note that focus of each camera is set by default at infinite: due to the short focal length typical of webcams (that usually require high field of view) everything further than N meters is on focus. For closer objects, autofocus can be activated, but both focal length values must keep in sync so that there is no discrepancy in blurriness between the two images.
+\end{itemize}
+In such limited FOV conditions we opted for horizontal cameras in toe-in configuration. Cameras converge at 40cm from the user, which is our estimated average for basic hand manipulation so tasks. Stereopsis can be achieved for very close objects up to N cm from the user in negative parallax. Instead of a tunnel-like view effect for FOVs insufficiently high in respect to human eye, we get more a window-like view: HMD provides a view range wide enough for user’s eyes, but camera image boundaries are visible, implying that real objects are perceived as coming in or out a "window", whose distance corresponds to the zero-parallax. Arms in view closer than this distance are seen as "cropped out" from the bottom, which clearly shows negative parallax limits. Ideally, this window should be moved as close as possible to the eyes (shouldn't be the HMD itself the supposed "window"?) but this is not really practical nor suggested for all the issues discussed above. Note that this fictional plane is only an optical perception: the distance at which the actual virtual object onto which image is projected can be arbitrarily and dynamically changed. This won’t matter where real objects will be perceived, but where virtual object will be clipped by such plane.
+
+\iffalse
+TOED-IN
+(-) edge violation, "see through a window" effect (lower immersion)
+(-) keystoning effect at edges, but reducible
+(+) compensate the low stereo cues area of parallel config
+(+) easy to implement
+(+) good vertical disparities (VSR)
+\fi
+
+\subsection{fish-eye lens configuration}
+Way more high FOV can be gathered by fisheye lenses, which can cover angles from 120 to 170 degrees, up to 190 in extreme conditions. Inevitably, lens distortion is also very high, but responds to a different camera model, where there is no unique optical axis, but infinite spanning from lens focal center to every point of its spherical surface [31]. This is way image captured from a planar sensor from a fisheye lens model appears as a circle, with almost no distortion at its center, compressing toward the edge until disappearing on the boundary: this is what we get when projecting a spherical surface on a plane. This is addressed as epipolar or stereographic projection in geometry and is widely used in fields like geography and cartography [32] where the need to map targets non-planar by nature into planar representations is met.\\
+For computer vision, but also for a naked eye, such images need to be undistorted to see the scene in the proper way. On a 2D plane, by undistortion we intend a sequence of transformations or reprojections that returns, in the end, a 2D picture. For what we said about the capabilities of a fisheye lens, this shows a clear limit: it requires a planar surface of infinite dimensions to reproduce 180 degrees of FOV correctly, and still unpractical proportions for values as high as the human eye’s.
+
+(figure)
+
+Our solution borrows the techniques used in immersive environment based upon hemispherical domes [33]. In particular, how omnidirectional images can be displayed so that the combination of viewer position and display itself perform the undistortion we are looking for: in principles, reverting a stereographic projection from the plane, the result of fisheye lens capture on the planar sensor, to its original 3D representation. Since we have two capture devices, what we also need is a stereo configuration to achieve stereopsis with such image pairs. Supposing we have a viewer in the center of a physical semi-spherical dome, capable of stereo, with eyes looking straight at its middle; the simplest configuration would be rotating each image, meant for each eye,  virtually inwards such that zero parallax occurs at the correct distance along view direction and project them to the same surface [34]. This can correspond to our setup with toed-in cameras and fisheye lenses, where images are live captured and "virtual" rotation of the image corresponds to a real rotation of the sensors. But as Paul Bourke stresses, correct parallax information is returned by the sistem only when viewer’s eyes are oriented straight forward, towards the region where considerations made for pinhole toed-in stereo apply. The alternative to this approach is called off-axis fisheye projection [35] which can be considered the counterpart of image displacement in planar displays: each omnidirectional image is virtually shifted and then reprojected on the dome, so that satisfactory depth sensation is formed for viewing directions different from the one mentioned above. Our camera setup can easily match this dome projection algorithm by shifting them perpendicularly to viewing direction, in a parallel configuration, which is our chosen option for capture FOV higher than what is allowed per-eye by the HMD.\\
+For our experimental setup, we can take advantage of the virtual 3D environment to recreate the same conditions: a half sphere mesh, solidal with user’s virtual head,  can be used as a dome by orienting face normals towards the center and using the raw fisheye image as a texture. To avoid complex shading algorithms, a pre-compiled UV map has been used and the chosen equipolar mapping method is shown in figure N.\\
+Note how this solution fits elegantly to solve most of the problems encountered so far:
+\begin{itemize}
+\item in both omnidirectional offaxis and toe-in approach, viewer experiences a decrease in parallax information towards the edges of the dome (angles next to -90 and +90 in respect to its original view direction); this loss can only be appreciated in a real dome, where an individual can actually rotate his head in respect to it, meanwhile in our setup he is only able to rotate his eyes, which in turn cannot get disparity on its sight borders by nature; such extreme eye movement are also unlikely to happen in reality;
+\item HMD allows us to return to each eye its own view, meaning a different dome and projected image; therefore both virtual eyes can be placed at the center of the semi-sphere at all times, an ideal and never verified condition for physical stereo dome environments;
+\item the symmetric nature of the projection and its extended FOV can come in handy for compensating latency issued between image capture and head movement without the user noticing, as we will discuss in later paragraphs.
+\end{itemize}
+
+\iffalse
+PARALLEL with high fov
+(+) no edge violation (close objects are welcome, high immersion)
+(+) no keystoning
+(+) no need to toe-in to compensate low fov..
+(-) .. but still can be very distorted at edge (need high quality lens!)
+(-) no stereo cues at the edge of the image
+(-) hard to implement (due to additional undistortion)
+(+) good vertical disparities (VSR)
+\fi
 
 %\section{Application pipeline}
 
 
-\section{Camera image pipeline}
+\section{Image mapping}
+As ar interaction scene is finally rendered on a screen, a straightforward approach could be to first render the background or the skybox, then render correctly FOV mapped image and display it, then render virtual objects on top. This approach is what happens for AR applications displayed on a common display, where the actual background is the real image in all conditions. On a video HMD, however, the parameters according which image is finally shown to the user can be much more complex than screen dimensions and resolution: mirrors or other optical solutions are involved to cover the needed FOV, meaning that the image on the screen must cope with introduced distortions, much like what Oculus Rift does. The mapping between HMD and the screen and the system implementing it is device-dependent: such information can be gathered only from documentation or from SDK. Moreover, any further adjustment on the image must be carefully implemented by tweaking the projection formula used, which can be not very intuitive and error prone when editing it in code. When working with a 3D engine, where z-buffer and rendering is usually hidden, the real image overlay step must be implemented specifically for that developing environment.\\
+Our approach proposes a solution to manage the 2D image FOV mapping and reprojection on video HMD independent from its physical implementation: if the HMD is capable of rendering properly a 3D scene, then is also capable of blending a 2D camera image in it, whatever the FOV discrepancy.
 
-\subsection{Frame timing and pose estimation}
+\subsection{Pinhole camera model mapping}
+In a 3D virtual environment, scene is rendered through a virtual camera, modeled by a view and perspective matrix: the first responsible for transforming vetrices coordinates from world to camera reference, the latter used for the actual 3D to 2D projection. For what it does, such matrix is a cousin of the intrinsic parameters matrix used in computer vision, but still differs in the form.\\
+
+(pinhole formula and relationships with cg matrix)
+
+As just seen, relevant camera characteristic parameters can be extracted from both matrices. The main difference lays in the model: "Normally, the film plane of a (real) camera is behind the focal point (i.e. the aperture) of the camera. The image can, however, be regarded as lying on a virtual image plane in front of the focal point. This arrangement is essentially the same as the virtual camera setup used in computer graphics rendering: the focal point is the "eye" point, the size and position of the image rectangle controls the field of view, and the perpendicular to the virtual image plane provides the "gaze" direction" [36]. This means that any HMD (or any other device displaying virtual imagery from 3D world) will most likely be using a virtual camera much like a real one; we say "most likely" because there do exist other less diffused proposed models for 3D rendering applications, such as Vrui [37].\\
+Rethinking real camera in terms of image plane, we can port its FOV and image to the virtual camera used by the application by simply placing a planar mesh in front of it, perpendicular to its view vector, where size and distance from the virtual camera focal point are strictly correlated.\\
+
+(formula)
+
+Fixed a distance, horizontal and vertical size of the rectangle can be determined from real camera intrinsic parameters, and their ratio keeps constant when varying the distance. In fact, it does not make mathematically sense to define unique values for size and distance: virtual image plane is only an abstraction and can represent any parallel planar slice of the virtual camera frustrum, from distance "epsilon" to "infinite", so the projection can be generated by any of these positions. The reader can then ascertain that, by using a mesh as instance of the real image plane, camera FOV is not dependent from virtual camera FOV. HMD system can estabilish its own virtual camera parameters and mapping, covering a range of view angles in the virtual world, while real camera will have his own intrinsic camera matrix, with its own set of horizontal and vertical angles: as soon as real and virtual focal points overlap in the 3D scene, no discrepancy can be observed.\\
+One exception may arise from consistent off-axis configurations: if for either real or virtual camera focal point is off the optical axis, to keep real image plane centered it should be shifted sideways by the distance between the two positions. This happens because our model simplification that only considers distance on the view vector of the camera, ignoring oblique optical axis. Model can be enhanced by extracting focal points coordinates from the matrices and applying the offset to the plane, but since it would be just a slight amount for Oculus Rift virtual cameras and this is the same operation that can be manually performed for convergence adjustment, such exception is not caught in our implementation.
+
+\subsection{Fisheye camera model mapping}
+Considerations previously made for fisheye image projection find direct application in the method proposed for pinhole camera. Instead of using a plane, a half UV or polyshpere mesh is used in omnidirectional dome fashion, having its center coincident with focal point of the virtual camera (representing the eye). Distance and size condition is always preserved when varying sphere’s scale symmetrically on the three axis (without deforming its original shape) since sphere has its pivot point in the virtual eye and covering 180 degrees in both horizontal and vertical direction.\\
+There is a problem however with this setup: while the rectangular plane matches perfectly image to be projected in size, the sphere covers maximum view at all conditions, meaning that fisheye circle will very unlikely cover the whole surface, unless perfectly matching the FOV. Moreover, the way such image lays on the rectangular camera sensor is totally dependent on how lens is mounted and camera specifications. For this reason, once frame is taken, data must be mapped correctly on the mesh, which in turns means:
+\begin{itemize}
+\item placing the center of fisheye circle in front of user’s view;
+\item scaling the fisheye circle so that it covers the correct amount of FOV;
+\item hiding the part of the image without information (hiding black areas out of the cirle).
+\end{itemize}
+The extraction of the fisheye circle could be performed by computer vision algorithms, detecting the black areas and determining its center. The latter must be performed at least once, while image cropping should be performed for each captured frame. As for determining lens FOV, pinhole camera calibration can extract such information, but it will both try to undistort the image (classifying the fisheye distortion as unwanted) and reproject it on a 2D image, which as clearly stated so far has limitations and crops the image (figure N)[38]. Methods specifically meant for fisheye image calibration exist [39] and such calibration model can be used in implementations with OpenCV [40] and Matlab [41]. Once FOV is known, assuming it is symmetrical, the fisheye circle must be mapped correctly on the dome surface. This can only be achieved by manipulating UV coordinates accordingly.\\
+The pre-compiled UV map set proposed in this project (figure N) matches sphere mesh with its perpendicular equipolar planar projection, forming on a plane a perfect circle having same diameter as the sphere. In particular, our chosen UV map has its center in (0,0) and has its rightmost boundary in (1,0), forming a perfect quarter of circonference on a perfectly square texture; this choice will help making next calculations more intuitive. Considering the following known data:
+\begin{itemize}
+\item frame dimension
+\item center of the circle in frame
+\item fisheye fov
+\end{itemize}
+UV map coordinates can be transformed as follows:
+
+(formulas)
+
+By implementing the algorithm in a fragment shader for the sphere material, we have been able to reproduce its results; also by assigning zero alpha value to the area outside the circle (by either targeting black color values or better a binary mask) it is no longer necessary to preemptively crop each frame and such operation is performed by GPU before rendering.\\
+In our application, fisheye FOV extraction has not been implemented since in our tests has been hardcoded in a configuration file, but UV map offset and scale can be tweaked manually at runtime: such feature allows to display not only real video stream from the cameras, but also offline stereo omnidirectional imagery captured by fisheye lenses.
+
+\section{Implementing stereo augmented reality}
+A premise of our pipeline design is to be able to perform computer vision or stereo computer vision independently from the method used to finally render images to the user. One may choose to enhance the frames and display such to the user or merely extracting information from one or both cameras leaving their view untouched. While the application unlocks such possibilities, our implementation focuses on interaction between the two worlds, meaning blending (raw or filtered) real and virtual images and virtual content with real content, alias augmented reality. Technically speaking, real world content in a 3D virtual environment would classify such application as augmented virtuality, as we mentioned in the introduction; however, for this project, our final goal was not focus on VR (whose aspects eventually come in play) but to implement see-through and model an augmented reality headset through it.\\
+Reader can agree that with sufficient knowledge in computer vision and shading scripting it is straightforward to alter camera image and render output as far as is well within limitations in performance and curiosity. The same cannot be said when working with virtual objects partially or entirely generated by information extracted from real images. In most elementary consumer AR applications [4,5], virtual entities are rendered on top of a real image which covers the entire screen, so that the gap between virtual and real is minimized, exception made for the screen borders. In our case, image can cover in part or entirely the user’s view: anything virtual placed on top of the image must persist in the 3D world he is experiencing, beyond image reach. Such objects can be arbitrarly placed in the environment just like a VR-only application or placed somewhere according to what is sensed outside, exactly like position or orientation tracking sensors do to place user’s avatar according to its real movements. With the use of cameras, we can take advantage of modern computer vision to do some experiments with what is seen by the user to augment the world around him, but gripped to giving him perception that he is still moving in a real environment.\\
+
+(uncomplete part)
+
+One camera, given real intrinsic matrix, is responsible to detect a the marker on the image. Knowing its physical dimension, it is possible to obtain position and orientation of the marker in respect to camera reference system. Such information can be directly used to place the a virtual object in the 3D space, once real and virtual reference systems coincide. Given the considerations and the choices in setting up image projection mesh in respect to the virtual camera, there is no further transformation to be done: position and orientation of the real marker are only relative to real camera focal point and its orientation, whose model in turn overlaps with the virtual camera. This implies that the projection of the marker will coincide with virtual object projection by construction, as soon as coordinates of the latter are expressed in the virtual camera coordinate system. This has one more relevant advantage: whether the marker is detected by left or right camera and the entity position/orientation is set accordingly, this will appear perfectly overlapped in both images since the 3D scene is shared between both eyes, as shown in picture (N). Stereoscopic perception is achieved by both objects seamlessly.\\
+Some considerations must be done for stereo convergence calibration: shifting inwards or outwards the two images (or any other translation) will disrupt such alignment. The previous explained implementation works for toed-in convergence and parallel fisheye, but will inevitably fail where further convergence adjustments are necessary. In this case, one may want to extend our geometrical model of the virtual stereo rig by putting a constraint on virtual object position and scale, so that it is also slightly shifted and returns to each eye the correct view, even though this can be seen as a "hack" because its final dimensions and coordinates will differ from what was originally percieved by the real cameras.\\
+By means of head tracking, we can further improve the percieved detection performance: once an AR marker is first detected, its coordinates can be expressed from original virtual camera to virtual world coordinates and used to position the AR object permanently in the 3D scene; since camera image is in our setup dependent from HMD pose and user’s head movements are mapped into virtual world, the correspondence between virtual object and marker will remain valid also when marker is not in view, as soon as marker has not moved. This is extremely useful in applications when there are both complete positional and orientation tracking and marker is not supposed to move [42], but still mitigates failures in detection when marker is entirely or partially in view and the only head orientation is used, such as our case. Virtual object will obey to virtual world physics until it is "synched" again with real world information. Other algorithms in need of such information could be optimized by using coordinates from virtual world which provides at best the real value and at worst a very good approximation.
+
+\section{Image latency compensation}
+
+\section{3D rendering pipeline}
+
+(schema)
+
+Our application acts at two different 3D levels, or scenes as they are addressed in computer graphics:
+\begin{itemize}
+\item AR interaction scene: this level simulates all behaviours expected by real-virtual world interactions, whose implementation is device-independent. Briefly, this includes:
+\begin{itemize}
+\item user head/eyes virtual model (including capture-to-render latency compensation);
+\item virtual objects, whose characteristics can be or not be extracted from real world;
+\item real world image representation model (including its distortion);
+\end{itemize}
+\item HMD display scene: in this environment, image to be displayed on Oculus Rift screen is rendered from the previously mentioned scene, meaning that all HMD device-related distortion and optimizations are performed. In the specific:
+\begin{itemize}
+\item pincushion distortion, as opposed to barrel distortion caused by Oculus lenses, plus related chromatic aberration compensation for the ar interaction scene to be rendered correctly;
+\item timewarping implementation, for render-to-eye latency compensation;
+\item orthographic virtual cameras to match result with Rift actual screen.
+\end{itemize}
+\end{itemize}
+
+\subsection{Enhanced head model}
+
+\subsection{Real image representation model}
+As we have seen in previous chapters, two virtual cameras are used to model user’s view. In our implementation, IPD and ETN distance are kept in count, but its values must be manually set (in our case, are retrieved by user custom values provided by SDK). The enhanced model image reprojection allows to customize some of its relevant geometrical characteristics by means of dynamic adjustments. These include:
+\begin{itemize}
+\item shape: at current state, this can be switched between a plane (for pinhole toed-in camera configuration) and a half polysphere (for fisheye parallel configuration); a future implementation of vertex shader could generate a custom deformed mesh to correct more irregular distortions;
+\item texture image: by default, the raw or computationally undistorted image of each camera is displayed, which is the critical case for this thesis; it is trivial to add support for showing offline content;
+\item texture map: a custom implemented fragment shader allows the user to calibrate fisheye image reprojection on the dome, since this depends on the capturing lens/sensor used and an automatized implementation, if feasible, would arise application complexity; omnidirectional image circle can be translated and rescaled until presumed straight lines are percieved as straight in the headset;
+\item position/rotation offset: convergence can be further adjusted by translating (in the pinhole case) or rotating (in the fisheye case) the shape, whose pivot point is the eye; as previously discussed, it is advised to act directly on the camera tilt when in toed-in configuration;
+\item keystoning correction: for toed-in based configuration, both planes can be rotated in opposite directions further around their own vertical axis (perpendicular to its normal) so that its projection on virtual camera corrects unwanted keystoning effect; such option has not been implemented since effect was trascurable in our experiment;
+\item virtual world clipping: scale and distance from the eye are strictly correlated to preserve the correct FOV mapping of the image; it is however possible to move forwards or backwards the projection mesh to clip virtual objects at the specified distance, which will fall in front or behind the image; we hope this aspect can be of inspiration for adding complexity with a future implementation of depth mapping with stereo computer vision;
+\item "fictional" FOV adjustment: although not recommended, projected image can be deformed for both configurations to give the perception of an increment of FOV of the captured image itself; this is meant to compensate the fact that real cameras are not really placed on the eyes, but some centimeters far from them: as a result, observed real objects appear closer to how they should be.
+
+\end{itemize}
+
+\subsection{HMD distortion and timewarping implementation}
+
+
+\section{Application comprehensive pipeline}
+
+(schema)
+
+\subsection{Image frame timing and pose estimation}
 TIME\\
 Approximate: simply get time before grab new frame\\
 Precise-auto: compute image-to-grab delay from frame timestamp (if available)\\
@@ -35,63 +184,14 @@ Predicted: predict the pose in the past by a delay\\
 Precise: get the current pose a delay before calling grab()\\
 \subsection{Image elaboration}
 
-\subsubsection{Lens distortion correction}
+\subsubsection{Distortion correction}
 \subsubsection{Marker detection}
 reference mapping between Ogre and arUco\\
 pivot offset to place the object on the marker\\
 undistort tolerance\\
 
-\subsubsection{Image effect/enhancement}
-
-\subsubsection{A Cuda-ready pipeline}
+\subsubsection{Enhancements pipeline}
 
 \subsection{Frame synchronization}
 
-\section{3D Rendering pipeline}
-
-\subsection{Enhanced head model}
-
-\subsection{Virtual eye render mapping to real eye}
-
-\subsection{Camera image mapping to virtual eye}
-
-Suppose camera is in the same position of the eye (as aruco) \\
-aruco detected object must be placed relative to the scene (after detected) \\
-
-
-better marker detection with two cameras? who cares \\
-
-
-
-\subsubsection{pin-hole camera model}
-\subsubsection{fish-eye camera model}
-
-\subsection{Image stabilization}
-Image pose application \\
-Head stabilization \\
-Eye stabilization \\
-
-\section{Stereo Rig design}
-alignment of cameras is critical!
-
-\subsection{wide-angle lens configuration}
-TOED-IN
-(-) edge violation, "see through a window" effect (lower immersion)
-(-) keystoning effect at edges, but reducible
-(+) compensate the low stereo cues area of parallel config
-(+) easy to implement
-(+) good vertical disparities (VSR)
-
-\subsection{fish-eye lens configuration}
-PARALLEL with high fov
-(+) no edge violation (close objects are welcome, high immersion)
-(+) no keystoning
-(+) no need to toe-in to compensate low fov..
-(-) .. but still can be very distorted at edge (need high quality lens!)
-(-) no stereo cues at the edge of the image
-(-) hard to implement (due to additional undistortion)
-(+) good vertical disparities (VSR)
-
-\subsection{3D printed prototype (?)}
-
-
+\section{Performance optimizations}

@@ -1,0 +1,53 @@
+1 - zero point: https://www.youtube.com/watch?v=DsXEUPS2uss
+2 - star wars trailer: https://www.facebook.com/StarWars/videos/1030579940326940/
+3 - PRESENCE AS THE DEFINING FACTORIN A VR APPLICATION -- https://smartech.gatech.edu/bitstream/handle/1853/3584/94-06.pdf
+4 - Google visual translate, formerly World Lens -- https://play.google.com/store/apps/details?id=com.google.android.apps.translate
+5 - IKEA virtual forniture -- https://www.youtube.com/watch?v=vDNzTasuYEw
+6 - Augmented Reality: A class of displays on the reality-virtuality continuum -- http://web.cs.wpi.edu/~gogo/hive/papers/Milgram_Takemura_SPIE_1994.pdf
+7 - Optical Versus Video See-Through Head-Mounted Displays in Medical Visualization
+8 - Alfano, Patricia L. and George F. Michel. (1990). Restricting the field of view: perceptual and
+performance effects. 
+Perceptual and Motor Skills, 70
+(1), 35-45
+9 - GPU Accelerated Realtime Stereo for Augmented Reality
+10 - working distance zero plane
+11 - infinite zero plane
+
+12 - Binocular Disparity and the Perception of Depth, Ning Quian, 1997 -- http://brahms.cpmc.columbia.edu/publications/stereo-review.pdf
+13 - già vistooo
+14 - The Modelling of Stereoscopic 3D Scene Acquisition, paragraph 1.1
+15 - The Camera Convergence Problem Revisited - Robert S. Allison
+16 - Dynamic Eye Convergence for Head-mounted Displays Improves User Performance in Virtual Environments
+17 - Creating correct stereo pairs from any raytracer, Paul Burke, 2001
+18 - Offaxis frustums: What are they and what are they good for?, Paul Burke, 2004 presentation
+19 - AR rift page
+20 - Book
+21 - Digital stereo photography tricks and effects, Donald E. Simanek, https://www.lhup.edu/~dsimanek/3d/stereo/tricks.htm
+22 - Example of Stereo Calibration using OpenCV, Jay Rambhia, 30 Mar 2013
+23 - Stereo rectification of calibrated image pairs based on geometric transformation
+
+
+24 - Calculating Stereo Pairs, Paul Burke, 1999
+25 - Automatic Keystone Correction for Camera-assisted Presentation Interfaces, 2000, R. Sukthankar, R. Stockton, M. Mullin
+26 - Create side-by-side stereo pairs in the Unity game engine, Paul Burke, 2008
+27 - Optical Versus Video See-Through Head-Mounted Displays in Medical Visualization, 3.2.3 Adaptation
+28 - www.sub2r.com
+29 - www.ptgrey.com
+** 30 - Presence and Discernability in Conventional and Non-Photorealistic Immersive Augmented Reality, W. Steptoe, S. Julier, A. Steed, 2015
+31 - book
+32 - Stereographic Projection Techniques for Geologists and Civil Engineers
+33 - Lantz, E. A survey of large-scale immersive displays. Proceedings of the 2007 workshop on Emerging displays technologies: images and beyond: the future of displays and interaction. ACM International Conference Proceeding Series; Vol. 252, 2007, ISBN:978-1-59593-669-1
+34 - Omni-directional Stereoscopic Fisheye Images for Immersive Hemispherical Dome Environments, Paul Burke, 
+35 - Salamon, D. 2005. Transformations and Projections in Computer Graphics. Springer London, pp 145-220. DOI: 10.1007/978-1-84628-620-9.
+
+
+36 - The magic of computer graphics, Noriko Kurachi, CRC Press, 2011, ch5: "image based rendering"
+37 - Vrui webpage
+38 - Example post "Correcting Fisheye Distortion Programmatically" -- http://stackoverflow.com/questions/2477774/correcting-fisheye-distortion-programmatically
+39 - PRECISE METHOD OF FISHEYE LENS CALIBRATION - M. Kedzierski, A. Fryskowska
+40 - Calib3d implementation in OpenCV for fisheye model - http://docs.opencv.org/master/db/d58/group__calib3d__fisheye.html#gsc.tab=0
+41 - OcamCalib for Matlab -- https://sites.google.com/site/scarabotix/ocamcalib-toolbox
+
+42 - arUco with Ogre example - https://www.youtube.com/watch?v=CzD48UkGsK8
+
+N - http://www.massey.ac.nz/~mjjohnso/notes/59735/seminars/08602700.pdf
