@@ -1,0 +1,43 @@
+images and graphs 44,12MB
+
+bonus iniziale
+
+graph: AR pipeline
+image: rugby
+image: milgram's continuum
+image: teleoperated robot
+image: facebook toybox
+image: strong virtual drift
+image: video see-through
+image: optical see-through
+image: hololens
+
+
+image: zero-parallax plane
+image: comparison of stereo rig configurations
+image: keystoning
+image: result of stereo calibration vs single camera calibration
+graph: vr head model
+image/schema: complete low latency rendering
+image: result of timewarping at 0 fps
+
+table: gear used
+image: sensor comparison in sizes for video
+schema: comparison between how cameras are set in toe-in and where virtual window is percieved
+schema/image: comparison fisheye/pinhole projection
+image: uv mapping of sphere, stereographic like wikia
+schema/image: relationship between plane size and distance
+image: uv mapping in blender + initial coordinates
+image/schema: AR perfect overlap with the same scene for the camera
+image: stackoverflow fisheye result calibration
+schema: AR object expressed in the world
+schema: camera with pose vs camera no pose in scene
+schema: neck vs eye compensation (1 and 2)
+schema: pinhole vs fisheye stabilization
+image/schema: the overall latency chain compensation (whole application)
+schema: initial situation when not knowing correct time of capture
+schema: 2 different ways of extimating correct time of capture
+schema: application overall pipeline
+schema: 3d rendering pipeline (the two scenes)
+schema: enhanced vr head model
+schema: cv pipeline
