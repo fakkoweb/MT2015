@@ -50,3 +50,7 @@ escapechar=`
 \newcommand{\tdef}[1]{\textit{#1}\index{#1}}
 % meta-termine, usato tipicamente nelle definizioni dei tag
 \newcommand{\meta}[1]{\textit{#1}}
+
+% better aligment for overbrace command
+\newcommand{\xoverbrace}[2][\vphantom{\dfrac{A}{A}}]{\overbrace{#1#2}}
+\newcommand{\pder}[2]{\frac{\partial#1}{\partial#2}}

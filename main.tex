@@ -1,24 +1,3 @@
-% per commentare una riga mettere % al suo inizio
-% per s-commentare una riga (ossia attivarla) togliere il % al suo inizio
-%
-\documentclass[pdfa% formato PDF/A, obbligatorio per l'archiviazione delle tesi di Polito
-,cucitura%lascia margine per la rilegatura
-%,twoside% per stampa fronte-retro (fortemente consigliato per tesi voluminose, opzionale per le altre)
-%,12pt% font pi� grande (12pt) rispetto a quello normalmente usato (11pt)
-]{toptesi}
-%
-% Commentare le righe seguenti se NON si � specificata l'opzione "pdfa"
-\hypersetup{%
-    pdfpagemode={UseOutlines},
-    bookmarksopen,
-    pdfstartview={FitH},
-    colorlinks,
-    linkcolor={black},
-    citecolor={red},
-    urlcolor={blue}
-  }
-% \documentclass[11pt,twoside,oldstyle,autoretitolo,classica,greek]{toptesi}
-% \usepackage[or]{teubner}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Esempio di composizione di tesi di laurea.
@@ -32,9 +11,43 @@
 % Cambiare encoding a piacere; oppure non caricare nessun encoding se si usano
 % solo caratteri a 7 bit (ASCII) nei file d'entrata.
 %
+% per commentare una riga mettere % al suo inizio
+% per s-commentare una riga (ossia attivarla) togliere il % al suo inizio
+%
+% DOCUMENT SETTINGS
+% -----------------
+\documentclass[
+    pdfa,       % formato PDF/A, obbligatorio per l'archiviazione delle tesi di Polito
+    cucitura,   %lascia margine per la rilegatura
+    %twoside,   % per stampa fronte-retro (fortemente consigliato per tesi voluminose, opzionale per le altre)
+    %12pt       % font pi� grande (12pt) rispetto a quello normalmente usato (11pt)
+]{toptesi}
+
+% Commentare le righe seguenti se NON si � specificata l'opzione "pdfa"
+\hypersetup{%
+    pdfpagemode={UseOutlines},
+    bookmarksopen,
+    pdfstartview={FitH},
+    colorlinks,
+    linkcolor={black},
+    citecolor={red},
+    urlcolor={blue}
+  }
+% \documentclass[11pt,twoside,oldstyle,autoretitolo,classica,greek]{toptesi}
+% \usepackage[or]{teubner}
+
 \usepackage[latin1]{inputenc}% IMPORTANTE! usare codifica ISO-8859-1 per le lettere accentate
-
-
+\usepackage{amsmath}
+\usepackage[justification=centering]{caption}
+%\DeclareCaptionFormat{myformat}{%
+  % #1: label (e.g. "Table 1")
+  % #2: separator (e.g. ": ")
+  % #3: caption text
+%  \begin{varwidth}{\linewidth}%
+%    \centering
+%    #1#2#3%
+%  \end{varwidth}%
+%}
 %
 %\chapterbib %solo per vedere che cosa succede; e' preferibile comporre una sola bibliografia
 %\AdvisorName{Supervisors}
@@ -56,23 +69,18 @@
 % SCONSIGLIATO! da usarsi solo in caso di estrema necessit�
 \setcounter{secnumdepth}{4}% section-numbering-depth
 \setcounter{tocdepth}{4}% TOC-numbering-depth (TOC=Table-Of-Content)
-
 %\setbindingcorrection{3mm}
 
 % Set default language (if not defined, then is "italiano"
-% To switch to other language during writing, use \selectlanguage{language}
+% To switch to other language DURING writing, use \selectlanguage{language}
 \english
 
-\input{sections/frontespizio/frontespizio.tex}
-
 \input{commands/commands.tex}
+\input{sections/frontespizio/frontespizio.tex}
 
 \begin{document}
 
-
-
 \errorcontextlines=9
-
 \expandafter\ifx\csname StileTrieste\endcsname\relax
     \frontespizio
 \else
