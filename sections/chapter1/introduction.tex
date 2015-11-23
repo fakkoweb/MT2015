@@ -39,29 +39,110 @@ In the specific we will experiment with Augmented Reality/Virtuality, with a big
 \section{From Augmented reality to Augmented Virtuality}
 
 As we speak of Virtual Reality environments we refer to an experience in which the user is fully immersed, therefore as much isolated from the real world. The perception of one’s self actually being in a different place gets deeper when involving more advanced sensory to track our movements and proxies like avatars to keep alive what is called in VR the "sense of presence", a critical term that expresses the longing deep connection with user perception and psychology [3]. However, there are cases where we might want to take full advantage of the high level of interaction with a virtual environment without giving away the connection with the real world. Virtual reality is mainly meant to bring one’s perception in a controlled environment with its own rules, but what if we want to retain all the aspects of the environment surrounding us plus enhancing it with virtual elements? What if we want indeed to be brought in a different place, where everything is real except our own presence?
+\begin{figure}
+\centering
+\includegraphics[width=7cm]{pictures/1st_and_ten}
+%\caption{This caption is very long \newline ---in fact, it is so long that it doesn't fit on one line}
+%\caption
+%[1st line \newline 2nd line]
+%{\begin{minipage}[t]{.8\linewidth}This is the caption \\This is the second line \end{minipage}}
+\caption{The "1st and Ten" system, one of the first successful applications of augmented reality in sports (source: \href{http://www.howstuffworks.com/first-down-line.htm}{howstuffworks.com})}
+\label{fig:rugby_ar}
+\end{figure}
 
 Augmented Reality explores ways of including virtual elements in the real world. Typically application’s aim in AR (as we will refer to from now on) span from showing additional information to actually place entire objects in the observed scene. The goal is not only keeping intact contact with reality but making it interactive, enhancing it with arbitrary content in the less obtrusive and more intuitive way possible. AR may or may not have reasons to track user pose or actions, but never involves the usage of avatars of any sort, since user is meant to feel exacly where he actually is.
 
-(image of AR schema)
-
 Nowadays, any device that embeds a camera, a screen and a decent processing unit can feature AR applications, whether Its computational complexity depends on features extraction [4] or no extraction at all [5]. However, even though availability and cost of the hardware makes them accessible to anyyone, their use is not as much diffuse as one would expect. The reason is to find again in obtrusivity and intuitivity, which brings us to transparency and integration. The real seamless integration between real and virtual is limited by the not-as-integration between individuals and devices; current systems are still far from perfect, and system designers typically end up making a number of application dependent trade off, going from simply infographic content such as sport games on tv or HUDs to more immersivity and interaction oriented applications such as medical surgery, complex machinery repair and other tasks that require a specific training.
 
-(image of rugby game on tv with infographic)
+\begin{figure}
+\centering
+\begin{subfigure}    
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth, height=6cm]{pictures/titanium-a}
+\end{minipage}
+\hspace{\fill}
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth, height=6cm]{pictures/titanium-b}
+\end{minipage}
+\end{subfigure}
+\vspace*{-6mm}
+\caption{Titanium Strong Virtual Drift, real (left) and virtual (view). A very effective example of augmented virtuality (source: \href{https://www.youtube.com/watch?v=WJyG76Izk8M}{youtube.com})}
+\end{figure}
 
 On the other hand, some applications are meant exacly for hijacking individual perception, even if not entirely, and carefully control it. That is the case where user is still supposed to interact with reality in some way, but how and when is not up to him. This is the general concept for Mixed Reality (MR), placed midway between pure virtual and real; according to Milgram’s continuum [6], AR is indeed a form of MR in its most reality-oriented form. Moving towards MR we find quite well-known devices such as night or heat vision goggles: not so far away to require avatar representation but enough obtrusive to completely replace environment as we see it.\\
-As we start to inject into the scene arbitrary information, which is not at all derived from real environment, we cross the boundary of Augmented Virtuality (AV). Roles are inverted: virtual experience can be somehow enhanced with outside information or content. Usually applications of this kind aim to keep contact with real world but also experiment with new ways of representing it. Also the user feels to be somewhere different from everyday world, but still are cases where avatars are not needed depending on the implementation: think for example to teleoperating a humanoid robot, where an avatar is not really necessary if the robot stays in the sight of the user, even better if his "virtual eyes" are on robots head (figure N). This is not true in a telepresence applications, where real world interaction is mostly percieved as enhanced VR experience.
+As we start to inject into the scene arbitrary information, which is not at all derived from real environment, we cross the boundary of Augmented Virtuality (AV). Roles are inverted: virtual experience can be somehow enhanced with outside information or content. Usually applications of this kind aim to keep contact with real world but also experiment with new ways of representing it. Also the user feels to be somewhere different from everyday world, but still are cases where avatars are not needed depending on the implementation: think for example to teleoperating a humanoid robot, where an avatar is not really necessary if the robot stays in the sight of the user, even better if his "virtual eyes" are on robots head. This is not true in tele-presence applications, where real world interaction is mostly percieved as an enhancement of VR experience.
 
-(Facebook telepresence and titanium strong virtual drift) A very curious but effective example of augmented virtuality. Featured video has been rendered offline but gives a good idea of what is the driver's experience.
+\begin{figure}
+\centering
+\includegraphics[width=10cm]{schemas/milgram_continuum_enhanced}
+%\caption{This caption is very long \newline ---in fact, it is so long that it doesn't fit on one line}
+%\caption
+%[1st line \newline 2nd line]
+%{\begin{minipage}[t]{.8\linewidth}This is the caption \\This is the second line \end{minipage}}
+\caption{A graphical representation of Milgram's continuum (from: \href{http://proceedings.spiedigitallibrary.org/proceeding.aspx?articleid=981543}{Augmented Reality: A class of displays on the reality-virtuality continuum})}
+\label{fig:milgram_continuum}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}    
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth]{schemas/reality1}
+\end{minipage}
+\hspace{\fill}
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth]{schemas/virtualreality}
+\end{minipage}
+
+\vspace*{0.3cm} % (or whatever vertical separation you prefer)
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth]{schemas/augmentedreality}
+\end{minipage}
+\hspace{\fill}
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth]{schemas/augmentedvirtuality}
+\end{minipage}
+\end{subfigure}
+\vspace*{-2mm}
+\caption{A simplified overview of mixed reality approaches. Standard arrows picture direct connections, while dashed arrows partial intervention. Their direction indicate the flow of information.}
+\label{fig:mixed_reality}
+\end{figure}
 
 \section{Optical and Video See-through devices} %limits and advantages
 Devices offering a very good compromise between interactivity and transparency for AR/AV immersive applications are Head Mounted Displays (HMD), where images are projected directly in the user’s view. HMDs often include on-board sensors like gyroscopes and accelerometers or simply passive markers like US or IR to keep track of head position, orientation and speed so that images can be displayed accordingly. As for the displaying part, two systems design have been proposed: video and optical see-through. Both have as image sources real and computer-generated world, but end up to be very different for technical reasons. In a work of Rolland-Fuchs [7] a comprehensive taxonomy of video and optical see-through technology is given, through which we will motivate the choice of our work.
 
-(images from examples of HMDs types)
+A video HMD with no images from the real world is common in VR applications: its ability to block out the real world view thus cover the highest user’s field of view with the crispiest computer-generated image possible. Adding on-board image capture capability it can be considered a video see-through device, capable of both AR/AV applications. Experimenting with AV has virtually no limits, since other kind of sensors or even more cameras may be involved to show something different to the user, as soon as a good level of immersion is guaranteed. The same cannot be said for a canonical AR application: captured images should appear as close as real and feel natural to the user, suspending his istinctive disbelief that what he is seeing is not real. A series of optical limits come in play that simply cannot be surpassed by a simple screen, which is just a simplification of how images are percieved by the human eye. To address this lack, the most pursued strategy is providing additional hints to the brain by involving head motion and even eye gaze tracking to act on image behaviour. But even if a good compromise can be reached, it cannot be considered acceptable in the long run: human brain is as good at noticing imperfections as adapting to them. This costant effort generates an increasing amount of stress in the user that, depending on the subject, may experience from simple eye strain to temporary sickness [?].
 
-A video HMD with no images from the real world is common in VR applications: its ability to block out the real world view thus cover the highest user’s field of view with the crispiest computer-generated image possible. Adding on-board image capture capability it can be considered a video see-through device, capable of both AR/AV applications. Experimenting with AV has virtually no limits, since other kind of sensors or even more cameras may be involved to show something different to the user, as soon as a good level of immersion is guaranteed. The same cannot be said for a canonical AR application: captured images should appear as close as real and feel natural to the user, suspending his istinctive disbelief that what he is seeing is not real. A series of optical limits come in play that simply cannot be surpassed by a simple screen, which is just a simplification of how images are percieved by the human eye. To address this lack, the most pursued strategy is providing additional hints to the brain by involving head motion and even eye gaze tracking to act on image behaviour. But even if a good compromise can be reached, it cannot be considered acceptable in the long run: human brain is as good at noticing imperfections as adapting to them. This costant effort generates an increasing amount of stress in the user that, depending on the subject, may experience from simple eye strain to temporary sickness [?].\\
-Optical see-through devices sistematically solve the problem, providing semi-transparent lens or screen that lets light in while computer-generated images are merged through a set of mirrors. The connection with reality is kept nearly intact, therefore no perception side-effects are present as soon as device is perfectly calibrated. The limit of optical HMDs is only technological. While they are the best option for AR applications, they still lack the capability of showing environment as only a completely transparent glass would allow or virtual content as only a completely opaque screen would do. Moreover, there is always a discrepancy between overlay (region where virtual and real information are superimposed) and peripheral FOV of the user, an issue video HMD not really have since everything else from the screen is blocked out. Cost and build limits still not allow to cover high field of views such as ones achieved by recent video counterparts like Oculus Rift or Sony VR. In other words, optical see-through solutions are promising for a variety of applications whose working space is within arm reach and require reliability and minimum distraction. Even with the best performance possible, a video see-through headset can be dangerous in situations where seeing what is going on is vital.\\
+Optical see-through devices sistematically solve the problem, providing semi-transparent lens or screen that lets light in while computer-generated images are merged through a set of mirrors. The connection with reality is kept nearly intact, therefore no perception side-effects are present as soon as device is perfectly calibrated. The limit of optical HMDs is only technological. While they are the best option for AR applications, they still lack the capability of showing environment as only a completely transparent glass would allow or virtual content as only a completely opaque screen would do. Moreover, there is always a discrepancy between overlay (region where virtual and real information are superimposed) and peripheral FOV of the user, an issue video HMD not really have since everything else from the screen is blocked out. Cost and build limits still not allow to cover high field of views such as ones achieved by recent video counterparts like Oculus Rift or Sony VR. In other words, optical see-through solutions are promising for a variety of applications whose working space is within arm reach and require reliability and minimum distraction. Even with the best performance possible, a video see-through headset can be dangerous in situations where seeing what is going on is vital.
+
 Optical HMD is so far the candidate to be more present in everyday life in the future. As we already mentioned, its current obtrusive nature makes it hard, but recently a lot of effort has been spent in this direction. "Light" versions of optical HMD can be identified in early commercial products such as Google Glass or the still unreleased Microsoft Hololens (figure N), whose aim is supporting multi-purpose applications to supposedly revolutionize man-machine interfaces.\\
 As for video HMD, it is still very used in VR and telepresence/teleoperation applications. The current work has its starting point on its limits and possibilities. We found its features to be best for experimenting with different media and 3D content where integration with reality is a possibility not a necessity. Our aim is to build a basic AR video see-through setup that can allow users to experience both VR and AR seamlessly, with a costant focus on code reusability for future technology development (that will eventually overcome limits of both optical and video HMDs) and researchers to deeper understand their connection in human visual perception.
+
+
+\begin{figure}
+\centering
+\begin{subfigure}    
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth]{schemas/videoST_hmd}
+\end{minipage}
+\hspace{\fill}
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth]{schemas/opticalST_hmd}
+\end{minipage}
+
+\vspace*{0.3cm} % (or whatever vertical separation you prefer)
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth]{pictures/videoST_example}
+\end{minipage}
+\hspace{\fill}
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth]{pictures/opticalST_example}
+\end{minipage}
+\end{subfigure}
+\vspace*{-3mm}
+\caption{A video (top-left) and optical (top-right) see-through HMD conceptual diagram comparison for AR (source: \href{http://www.cs.unc.edu/~azuma/ARpresence.pdf}{A Survey of Augmented Reality}). At bottom two respective examples, WorldViz VideoVision powered HMD (left) and Simeye XL100A (right).}
+\label{fig:video_optical_seethrough_comparison}
+\end{figure}
 
 \section{Perceptual goals and technical issues}
 \subsection{High field of view}
@@ -91,4 +172,4 @@ END EDIT\\
 However, no matter what, inevitable to hit is the wall of "system latency", which refers to the time gap between a new set of data is retrieved from a sensor and the correspondent synthetic image is fully rendered. Since this exchange can be instantaneous only in theory, such physic limitation cannot be simply solved by more powerful hardware. In VR/AR applications, software "hacks" can be used to tighten the gap enough to trick the brain, as we will see. Moreover, since measure data belong to different natures, different non-synchronized devices working at different data rates, lag problems will be faced separately. 
 
 \section{Document outline}
-In chapter 2 we will provide an overview of critical aspects on which our work will be based, different configurations for stereo cameras to achieve stereoscopy and its counterpart in VR, plus implementation strategies for modern HMDs. In chapter 3 focuses on the proposed solution, combining and pushing forward what presented in chapter 2. In chapter 4 and 5 we offer some technical results on tests performed and a conclusion opening to future works that can exploit the proposed pipeline.
+In the introduction we have provided a motivations for experimenting with AR on a video see-through HMD and a fast glimpse of the problems we will have to face in the following dissertation. In chapter 2, we will run deeper through aspects critical for understanding the options and state-of-the-art tools our work will exploit to tackle such problems. Once an overview for both reality and virtual reality has been given, we will focus on the proposed methodology in chapter 3, combining and pushing forward what presented in chapter 2. In chapter 4 and 5 we offer our technical results on tests performed and a conclusion opening to future developments and works.

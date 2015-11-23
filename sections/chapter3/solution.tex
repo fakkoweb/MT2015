@@ -1,8 +1,49 @@
 
-
+\section{Preemptive overview}
+In this chapter we face the challenges of reaching a good compromise between stereo augmented reality and immersive VR in one application. To every issue early mentioned in the introduction, one by one, it will be presented an answer in the following paragraphs. More in detail:
+\begin{itemize}
+\item gear selection and stereo rig design (high field of view and high resolution requirements);
+\item image mapping and stereo augmented reality (minimum distortion and facing real and virtual discrepancy in stereo);
+\item latency compensation (other discrepancies induced by technical and physical limitations);
+\item implementation (all the above with considerations on performance).
+\end{itemize}
+Will follow in next chapter observation of work's results that could be achieved with the chosen starting gear and deducing possible future developments in the conclusions.
 
 \section{Gear selection}
-For testing in our project, we chose products available to the public that fits best our requirements within reasonable budgets. Software libraries involved focus on simplicity, future integration and come in part as a consequence of some of chosen assets. The table below [figure N] matches hardware/software used with project goals.\\
+We preferred to mention first the choices in hardware and software involved in the development of the project; this way we will be able to address the problems one by one and in parallel use our configuration as a practical example. We chose products available to the public that fits best our requirements within reasonable budgets. Software libraries involved focus on simplicity, future integration and come in part as a consequence of some of chosen assets. The table in [figure N] matches hardware/software used with the project goals anticipated so far.
+
+\begin{table}[]
+\centering
+\begin{tabular}{llll}
+\hline
+Gear type                       & Model                                & Goals coverage                                                                                                & Limitations                                                                                            \\ \hline
+\multicolumn{1}{|l|}{HMD}       & \multicolumn{1}{l|}{Oculus Rift DK2} & \multicolumn{1}{p{0.4\linewidth}|}{
+- Low latency \newline
+- High refresh rate (up to 75Hz) \newline
+- High FOV (up to 110 degrees on horizontal)\newline
+- Head pose tracking
+}                                                & \multicolumn{1}{p{0.2\linewidth}|}{No documentation on how VR stereo is performed on the eyes}                        \\ \hline
+\multicolumn{1}{|l|}{Stereo Rig}    & \multicolumn{1}{l|}{2x Logitech C920}   & \multicolumn{1}{p{0.4\linewidth}|}{
+- High framerate (30fps)\newline
+- FullHD resolution (1920x1080)
+}                                            & \multicolumn{1}{p{0.2\linewidth}|}{Usb2.0 limits bandwidth, frames must be decoded from h.264}                        \\ \hline
+\multicolumn{1}{|p{0.1\linewidth}|}{Computer Vision library}    & \multicolumn{1}{l|}{OpenCV 2.4.9}    & \multicolumn{1}{p{0.4\linewidth}|}{
+- Camera calibration \newline
+- Image undistortion \newline
+- Stereo vision \newline
+- Performance optimization (CUDA and TBB support)
+} & \multicolumn{1}{p{0.2\linewidth}|}{Still a CPU-bound vision library, only partial CUDA support}                                                  \\ \hline
+\multicolumn{1}{|l|}{3D Engine} & \multicolumn{1}{l|}{Ogre3D 1.9}      & \multicolumn{1}{p{0.4\linewidth}|}{
+- Portability \newline
+- Access to rendering pipeline code (open source) \newline
+- Shading support \newline
+- Compatibility with ROS
+}   & \multicolumn{1}{p{0.2\linewidth}|}{Lacks of dedicated development and debug environment (not a technical limitation)} \\ \hline
+\end{tabular}
+\caption{Hardware and software tools chosen for the experiments.}
+\label{gear_table}
+\end{table}
+
 The step by step followed for design is:
 \begin{itemize}
 \item identify class of HMD to build (type of components and its limits);
@@ -32,12 +73,30 @@ arUco
 \fi
 
 \section{Stereo Rig design}
-Assumption is that the two cameras have same technical characteristics and no distortion (or were previously calibrated). According to Paul Burke [24], a good rule of thumb for building up stereoscopic camera rig is to choose camera aperture and focal lenght first, depending on the the distance from the lens we decide to be on focus. Supposing we have a planar display, it is convenient to keep the zero-parallax plane at the same distance from the viewer, so that convergence and accomodation will keep coherent when watching the part of the scene on focus; this implies that to get convergence right with a parallel setup, one could shift the cameras, the lenses or later the image on the screen, with all the consequences we already discussed. In the case of a toed-in setup, convergence is immediately defined by their tilting angle, with no need for subsequent image trim but at the cost of keystoning.\\
-One great advantage in using a HMD with higher FOV than the cameras is that it is not really a problem to translate the image: once each camera's FOV is correctly mapped into user's view plane, each frame can be shifted or scaled without subsequent loss of FOV. This allows to dynamically adjust convergence after capture, for any stereo rig configuration. Moreover, the nature of 3D environment gives us the ability to easily correct keystoning, by either rotating or scaling the plane image it is projected into, instead of applying such transformation on the image [25]. The main reason left to favour a toed-in over a parallel setup for video see-through in high FOV HMD is the limits of the area covered by the insersection of the frustrums of each camera. If we plan to get stereoscopic effect on objects very close to the user, those objects also must fall in both frustrums. Excluding the more complex off-axis setup, this is only feasible in a parallel setup by raising cameras' FOV, which means switching lenses and introducing higher distortion, or manually tilting them inwards.\\
-Another common norm for stereo video footage is to use 1/30 of the zero-parallax distance as a measure for camera separation [26]. In first-person gaming, one commonly used strategy is to use the height of the camera from the virtual ground as zero-parallax distance and then calculate suggested separation: the result is a rough approximation of the proportions we have in real life. In our case, however, we prefer to keep camera separation as close to IPD: we want cameras to act as user's eyes and to be percieved as such in manipulation tasks. The zero-parallax distance is then chosen according to the working distance, ignoring the formula considered above (that is mainly meant for addressing issues with classic physical displays), but still providing the option for slight adjustment.
-\\
-As for stereo computer vision analysis, stereo calibration can be performed and algorithms can run independently from how images will be displayed to the user. It is anyhow a crucial point to examine in depth how displayed image and the information extracted from it are kept consistent in the 3D environment and in which way they can interact. Assuming we perform detection and place a virtual object in the VR scene accordingly, how can we guarantee that it will be overlapped to the image in the right spot at all times?\\
-The ideal case would be having both virtual and real stereo rigs in off-axis configuration, having real cameras coincident with real pupils. Proposed setup uses off-axis configuration for virtual rig, as also suggested by Oculus documentation and provided by SDK, and toe-in and parallel for the physical rig; in the specific, for standard and wide-angle type lenses (modeled with pinhole model) cameras are toed-in, for fisheye type lenses instead they are parallel. We will express the reasons for this choice in the following paragraphs.\\
+Assumption is that the two cameras have same technical characteristics and no distortion (or were previously calibrated). According to Paul Burke [24], a good rule of thumb for building up stereoscopic camera rig is to choose camera aperture and focal lenght first, depending on the the distance from the lens we decide to be on focus. Supposing we have a planar display, it is convenient to keep the zero-parallax plane at the same distance from the viewer, so that convergence and accomodation will keep coherent when watching the part of the scene on focus; this implies that to get convergence right with a parallel setup, one could shift the cameras, the lenses or later the image on the screen, with all the consequences we already discussed. In the case of a toed-in setup, convergence is immediately defined by their tilting angle, with no need for subsequent image trim but at the cost of keystoning.
+
+One great advantage in using a HMD with higher FOV than the cameras is that it is not really a problem to translate the image: once each camera's FOV is correctly mapped into user's view plane, each frame can be shifted or scaled without subsequent loss of FOV. This allows to dynamically adjust convergence after capture, for any stereo rig configuration. Moreover, the nature of 3D environment gives us the ability to easily correct keystoning, by either rotating or scaling the plane image it is projected into, instead of applying such transformation on the image [25]. The main reason left to favour a toed-in over a parallel setup for video see-through in high FOV HMD is the limits of the area covered by the insersection of the frustrums of each camera. If we plan to get stereoscopic effect on objects very close to the user, those objects also must fall in both frustrums. Excluding the more complex off-axis setup, this is only feasible in a parallel setup by raising cameras' FOV, which means switching lenses and introducing higher distortion, or manually tilting them inwards.
+
+\begin{figure} 
+\centering   
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth, height=7.4cm]{schemas/stereocam_only}
+\end{minipage}
+%\hspace{\fill}
+\begin{minipage}[t]{0.49\textwidth}
+\includegraphics[width=\linewidth, height=7.4cm]{schemas/eyes_only}
+\end{minipage}
+%\vspace*{2mm}
+\caption{Having a stereo camera rig in toe-in configuration (left) has the effect to reproduce the exact depth distance of a target T on a screen (right) where eye-to-eye (OO') and eye-to-screen distances match inter-camera (CC') and zero-parallax distance. Note that the schema ignores keystoning effect, so the geometry is for all stereo configurations where zero-parallax plane is not at infinite}
+\label{fig:stereo_eye_camera_comparison}
+\end{figure}
+
+Another common norm for stereo video footage is to use 1/30 of the zero-parallax distance as a measure for camera separation [26]. In first-person gaming, one commonly used strategy is to use the height of the camera from the virtual ground as zero-parallax distance and then calculate suggested separation: the result is a rough approximation of the proportions we have in real life. In our case, however, we prefer to keep camera separation as close to IPD: we want cameras to act as user's eyes and images to be perceived as close as reality in manipulation tasks; we will see how this choice will be fundamental for real-virtual matching in later paragraphs. While for footage on a screen the zero-parallax distance can be chosen so that we have the desired depth effect, in our case we will have to match that perceived distance with the virtual world, which will have its own stereo setup.
+
+As for stereo computer vision analysis, stereo calibration can be performed and algorithms can run independently from how images will be displayed to the user. It is anyhow a crucial point to examine in depth how displayed image and the information extracted from it are kept consistent in the 3D environment and in which way they can interact. Assuming we perform detection and place a virtual object in the VR scene accordingly, how can we guarantee that it will be overlapped to the image in the right spot at all times?
+
+The ideal case would be having both virtual and real stereo rigs in off-axis configuration, having real cameras coincident with real pupils. Proposed setup uses off-axis configuration for virtual rig, as also suggested by Oculus documentation and provided by SDK, and toe-in and parallel for the physical rig; in the specific, for standard and wide-angle type lenses (modeled with pinhole model) cameras are toed-in, for fisheye type lenses instead they are parallel. We will express the reasons for this choice in the following paragraphs.
+
 To keep each camera closest to each eye and minimize virtual sickness [27], constraints implied for the physical cameras are:
 \begin{itemize}
 \item keeping them at IPD distance (average human reference is 0.064m);
@@ -45,8 +104,16 @@ To keep each camera closest to each eye and minimize virtual sickness [27], cons
 \end{itemize}
 The configuration chosen to conduct our experiments is with cameras placed directly in front of user's eyes.
 
-\subsection{wide-angle lens configuration}
-Wide-angle lenses, even with high distortion, still obey to pin-hole camera model. Horizontal FOV for such lenses may vary from 45-50 to 90 degrees with lens distortion increasing ad the edges. This category can partially or completely cover horizontal FOV of a video HMD. One more problem is that these devices declare a vertical FOV that is valid only when the whole sensor surface is used. This is always the case when capturing one single image: it will be memorized in camera buffer and then transmitted to whatever machine requiring it, in an offline fashion. When requiring a constant stream of high definition images, however, device meets buffering, encoding and trasmission speed limitations. For istance, our model is a high end consumer usb 2.0 webcam offering up to 1920x1080 (16:9) resolution at a stable 30 fps stream; to achieve this result, our camera not only uses a fraction of the sensor (actual sensor is a 2304x1536 (4:3) so it uses the widest subset of pixels forming a 16:9 image for live capture), but also downscales and encodes in h264 captured frames. Similar performances in usb 3.0 devices leads to much higher cost for industrial applications [28,29].\\
+\subsection{Wide-angle lens configuration}
+Wide-angle lenses, even with high distortion, still obey to pin-hole camera model. Horizontal FOV for such lenses may vary from 45-50 to 90 degrees with lens distortion increasing ad the edges. This category can partially or completely cover horizontal FOV of a video HMD. One more problem is that these devices declare a vertical FOV that is valid only when the whole sensor surface is used. This is always the case when capturing one single image: it will be memorized in camera buffer and then transmitted to whatever machine requiring it, in an offline fashion. When requiring a constant stream of high definition images, however, device meets buffering, encoding and trasmission speed limitations. For istance, our model is a high end consumer usb 2.0 webcam offering up to 1920x1080 (16:9) resolution at a stable 30 fps stream; to achieve this result, our camera not only uses a fraction of the sensor (actual sensor is a 2304x1536 (4:3) so it uses the widest subset of pixels forming a 16:9 image for live capture), but also downscales and encodes in h264 captured frames. Similar performances in usb 3.0 devices leads to much higher cost for industrial applications [28,29].
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{schemas/diagonal_FOV}
+\caption{An overview on how a 16:9 image is extrapolated from a 4:3 sensor and vice-versa (left). Retailers often do not specify which ratio the declared diagonal FOV corresponds to, even though there is always a discrepancy on the vertical and horizontal (right). (source: \href{http://therandomlab.blogspot.se/2013/03/logitech-c920-and-c910-fields-of-view.html}{http://therandomlab.blogspot.se})}
+\label{fig:timewarp_timeline}
+\end{figure}
+
 Such frame displayed in front of one eye in the rift covers most of its horizontal range, but only about a half of vertical. A solution to this problem has been proposed by William Steptoe [30]: first match per-eye resolution of the HMD with the sensor's, then replace current lens with one with smaller focal length. This implies rotating each camera by 90 degrees, so that the new 9:16 configuration matches closely Oculus Rift DK2 per eye resolution of 960x1080. This is true, although lenses allowing to match camera vertical FOV with Oculus horizontal are very hard to find and would introduce too high distortion and information loss at the edges; it gets indeed coverage of DK1 vertical FOV but was it does not exploit all its horizontal capabilities (figure). Furthermore, there are two major reasons why we chose to stick with horizontal cameras:
 \begin{itemize}
 \item even assuming possible to cover eye horizontal angles with rotated sensor, there would be a substantial image loss on the vertical, since camera horizontal FOV would have reached much more than needed angle;
@@ -64,8 +131,9 @@ TOED-IN
 (+) good vertical disparities (VSR)
 \fi
 
-\subsection{fish-eye lens configuration}
-Way more high FOV can be gathered by fisheye lenses, which can cover angles from 120 to 170 degrees, up to 190 in extreme conditions. Inevitably, lens distortion is also very high, but responds to a different camera model, where there is no unique optical axis, but infinite spanning from lens focal center to every point of its spherical surface [31]. This is way image captured from a planar sensor from a fisheye lens model appears as a circle, with almost no distortion at its center, compressing toward the edge until disappearing on the boundary: this is what we get when projecting a spherical surface on a plane. This is addressed as epipolar or stereographic projection in geometry and is widely used in fields like geography and cartography [32] where the need to map targets non-planar by nature into planar representations is met.\\
+\subsection{Fish-eye lens configuration}
+Way more high FOV can be gathered by fisheye lenses, which can cover angles from 120 to 170 degrees, up to 190 in extreme conditions. Inevitably, lens distortion is also very high, but responds to a different camera model, where there is no unique optical axis, but infinite spanning from lens focal center to every point of its spherical surface [31]. This is way image captured from a planar sensor from a fisheye lens model appears as a circle, with almost no distortion at its center, compressing toward the edge until disappearing on the boundary: this is what we get when projecting a spherical surface on a plane. This is addressed as epipolar or stereographic projection in geometry and is widely used in fields like geography and cartography [32] where the need to map targets non-planar by nature into planar representations is met.
+
 For computer vision, but also for a naked eye, such images need to be undistorted to see the scene in the proper way. On a 2D plane, by undistortion we intend a sequence of transformations or reprojections that returns, in the end, a 2D picture. For what we said about the capabilities of a fisheye lens, this shows a clear limit: it requires a planar surface of infinite dimensions to reproduce 180 degrees of FOV correctly, and still unpractical proportions for values as high as the human eye's.
 
 (figure)
@@ -132,6 +200,20 @@ D = -\frac{2 \; far \; near}{far - near}
 \end{array}
 \end{equation}
 Note that the virtual reproduced FOV is expressed in terms of $right$, $left$, $top$, $bottom$ edges of a virtual image plane, which will result in the rendered frame. Also both projection matrix use a reference system that only differs from z-axis direction (Figure N).
+
+\begin{figure} 
+\centering   
+\begin{minipage}[t]{0.45\textwidth}
+\includegraphics[width=\linewidth, height=4.4cm]{schemas/hz_camera}
+\end{minipage}
+%\hspace{\fill}
+\begin{minipage}[t]{0.45\textwidth}
+\includegraphics[width=\linewidth, height=4.4cm]{schemas/gl_camera}
+\end{minipage}
+%\vspace*{2mm}
+\caption{Pinhole camera model (left) and GL camera model (right) "looking" at opposite directions.}
+\label{fig:stereo_eye_camera_comparison}
+\end{figure}
 
 Following the steps of Kyle Simek's work[?], intrinsic matrix (\ref{hz_intrinsic_matrix_original}) reference system can be then inverted on Z axis (by inverting sign of 3rd column) and can include additional z-depth information to match closer $P$ from \ref{gl_proj_matrix_original} closer:
 \begin{equation}

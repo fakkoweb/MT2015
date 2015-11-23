@@ -1,0 +1,43 @@
+
+We will now present the results of narrow set of experiments aimed to observe both user confort when exposed to different visualization conditions offered by our application (chosen among all the possible setups provided) and to measure performance where the vision pipeline is active.
+
+As a common setting, the 3D rendering engine has been forced to run at 60 fps while each camera runs at its best with 30 fps.  Performance results will be classified by computational hardware used, application setting and camera image resolution.
+
+A consideration must be done for camera resolution. With cameras in stock configuration, the highest 16:9 resolution used in the experiments is 1024x576 (on the 1920x1080 available): the reason is that, since image will not cover the entire HMD FOV with stock wide-angle lenses, it is no use to use the whole sensor surface. Resolution was then further reduced whenever the subject could not perceive any loss in quality (thus improving performance at zero cost) or whenever we needed to experiment with performance to provide more complete results or a reasonable frame rate with hardware in use.\\
+The high resolution of the sensor however still comes in handy when dealing with fish-eye lenses: to achieve the highest FOV possible, it is convenient to adjust the lens so that the entire fish-eye circle is restricted into the 16:9 area of the sensor used for video streaming, which in turn explains the need of higher resolution (image will need to be scaled to cover the entire HMD screen).
+
+Machine used for running the demo are:
+- Asus U500VZ - i7 3.00 Ghz - Nvidia GT650M (with cuda support)
+- "Aragorn" (from cvap) - ...
+
+\section{Live stereo augmented reality demo}
+In this experiment we tested the behaviour of the application in wide-angle toed-in configuration, streaming live images from the cameras into the HMD, and presenting them to the user. In addition, the AR pipeline is active and detecting an arUco marker from left camera and placing a virtual object in front of the viewer. To random subjects has been asked to walk around in a room with HMD on and to provide feedback on their experience on 3D perception when watching the marker static or manipulating it. The specific "yes/no" questions posed were:
+(questions?)
+The experiment was repeated for each subject under four different application settings:
+\begin{itemize}
+\item dark background and image stabilization off;
+\item dark background and image stabilization on;
+\item skybox active and image stabilization off;
+\item skybox active and image stabilization on.
+\end{itemize}
+In the following table (N) we have classified the results.
+
+(observations)
+
+\section{CUDA pipeline performance with NPR filter}
+In the demo in configuration X from previous paragraph has been activated the image effect pipeline, which uses the camera image and CUDA support to apply a Non-Photorealistic-Reality (NPR) filter. Gooch shading was also used to apply a "toon" effect to the rest of the virtual environment.
+
+The experiment focuses more on performance measurement than user experience, since deeper research and control over virtual environment rendering output is needed to achieve reliable results in terms of psychological perception. We asked anyway a less formal opinion on subjects under test on whether they could still distinguish real objects (from camera image) from the virtual object (from AR pipeline). Tests were performed with both OpenCV undistortion on and off, since we found that undistortion should be implemented in CUDA as well but with our setup arUco was still successfull in detecting the marker properly even without undistortion.
+
+(results)
+
+
+\section{Offline stereo fish-eye demo}
+Since in our experiments we did not have reasonable control over lens replacement and positioning on stock cameras, we proposed an alternative able to test the capabilities of our fish-eye mesh undistortion algorithm implemented in a glsl fragment shader. The experiment shows off static off-line stereo fish-eye imagery so that user can play with different shader settings until image appears undistorted in the view (and covers more than the HMD FOV).
+
+To subjects has been asked (without being able to move but only to rotate their heads around, since image no longer responds to real body movements) how immersed in the scene they felt, even though the scene was only composed of the undistorted fish-eye image.
+
+(results)
+
+
+

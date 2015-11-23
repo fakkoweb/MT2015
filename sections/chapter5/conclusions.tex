@@ -1,5 +1,25 @@
 
-\section{Optimizations for future applications}
+The developed application aims to provide a flexible environment for experimenting with stereo augmented reality on a video HMD and proposes a pipeline to perform both computer vision and the display of virtual immersive environment. Augmented reality is what can visually and intuitively link computer graphics with vision in one experience, but in principle any combination of the two can be used to customize user experience. In other words, this work's architecture can further evolve to become a more generic mixed reality experimental platform with the right combination of vision algorithms (as far as performance can allow) and virtual reality assets (such as dedicated peripherals to enhance user interaction).
+
+In this last chapter we take the chance to mention the possible improvements to our setup/application and future works that could push it further, by enhancing a specific feature or reusing part of the structure or geometry involve to solve similar problems.
+
+\section{Performance and experience optimizations}
+Most of the work focuses on a wide variety of aspects that span from computational issues to perception queries, in the effort to better understand the challenges when dealing with them altogether, as it is inevitable for the goals we prefixed to reach. As a result, not enough focus was left for each of the involved fields, which can for certain be examined more in depth and dedicate more attention to possible optimizations that can hide just behind the corner.
+
+One aspect that missed to be experimented with more is fish-eye projection and consequences it can have on immersivity together with image stabilization. The undistortion procedure can be of course automatized by implementing the algorithm presented in chapter 3, assuming needed calibration files for the specific camera used to take the shot are available. The same goes for video footage, whose support is straightforward to implement over the existing code (by adding support for off-line video playback) since texture for fish-eye mesh can be dynamically changed as it already happens for the pin-hole case.
+
+Also, image stabilization should be thoroughly tested in that case. As a result, if fish-eye image is wide enough to cover more than necessary HMD FOV and capture time is estimated with enough precision, user may not notice the action of camera stabilization at all, since his head movement obey to the VR scene only and image boundary less likely will show up in view (as explained in chapter 3). This can be for sure a relevant result in stereo see-through on video HMDs, but will mostly be effective in tele-presence contexts: where remote stereo camera rig may be very slow to move and react or even better is not allowed to move at all, precision in image pose estimation is no longer an issue. The illusion is that user is actually able to "look around" with no perceived latency and view limits depend on the vision system used on the other side.
+
+During the development of this work, stereo camera rigs optimized for Oculus Rift (or video HMDs in general) have been released [? ovrvision] or will eventually be [N leap unknown], with vision and synchronization features already implemented and ready to be used. Such will encourage future development on the matter, minimizing the implementation effort that was required in our case to experiment with non ad-hoc hardware.
+
+\section{Future work and development}
+At the current state, each camera is managed separately and each image elaborated on its own. But the conclusions reached on the geometry indicate that is feasible to implement stereo vision algorithms assuming stereo calibration is done properly. This is because, as we have seen, the display part performs its own distortion and is only dependent on the delay that takes to apply effects to be shown on that view; if image is instead used only to extract information, operations can run in parallel (in theory, also on different machines) and their effect on virtual environment can be set asynchronously, exactly like what happens for camera capture pose.
+
+A direct consequence of the project initial setup (we are referring to the relevance given in setting up cameras for optimal stereo matching) would be indeed to implement existing and efficient depth mapping algorithms, that could lead to future implementations of occlusions between real and virtual objects, or SLAM, unlocking position estimation capabilities.
+
+Speaking of enhancing the virtual reality side, amateur developer community is quite active in these years [?] on experimenting with VR HMDs and the proprietary device Leap Motion, which allows to track user hands and recognize gestures with minimal effort. Adding such feature (with minimal research required) would unlock direct interaction between user and virtual world and, in turn, augmented real world.
+
+The development possibilities expressed so far are easy to implement in theory but may not be easy to return the expected results in terms of performance. As our experiments on NPR have shown, it requires a even more optimized elaboration pipeline to guarantee high frame rates at high resolutions. The available option, partially 
 
 \iffalse
 \subsection{Employing ultra-wide Fish-eye lenses}
