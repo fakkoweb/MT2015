@@ -27,13 +27,13 @@ In the following table (N) we have classified the results.
 \section{CUDA pipeline performance with NPR filter}
 In the demo in configuration X from previous paragraph has been activated the image effect pipeline, which uses the camera image and CUDA support to apply a Non-Photorealistic-Reality (NPR) filter. Gooch shading was also used to apply a "toon" effect to the rest of the virtual environment.
 
-The experiment focuses more on performance measurement than user experience, since deeper research and control over virtual environment rendering output is needed to achieve reliable results in terms of psychological perception. We asked anyway a less formal opinion on subjects under test on whether they could still distinguish real objects (from camera image) from the virtual object (from AR pipeline). Tests were performed with both OpenCV undistortion on and off, since we found that undistortion should be implemented in CUDA as well but with our setup arUco was still successfull in detecting the marker properly even without undistortion.
+The experiment focuses more on performance measurement than user experience, since deeper research and control over virtual environment rendering output is needed to achieve reliable results in terms of psychological perception. We asked anyway a less formal opinion on subjects under test on whether they could still distinguish real objects (from camera image) from the virtual object (from AR pipeline). Tests were performed with both OpenCV undistortion on and off, since we found that undistortion should be implemented in CUDA as well but with our setup arUco was still successful in detecting the marker properly even without undistortion.
 
 (results)
 
 
 \section{Offline stereo fish-eye demo}
-Since in our experiments we did not have reasonable control over lens replacement and positioning on stock cameras, we proposed an alternative able to test the capabilities of our fish-eye mesh undistortion algorithm implemented in a glsl fragment shader. The experiment shows off static off-line stereo fish-eye imagery so that user can play with different shader settings until image appears undistorted in the view (and covers more than the HMD FOV).
+Since in our experiments we did not have reasonable control over lens replacement and positioning on stock cameras, we proposed an alternative able to test the capabilities of our fish-eye mesh undistortion algorithm implemented in a GLSL fragment shader. The experiment shows off static off-line stereo fish-eye imagery so that user can play with different shader settings until image appears undistorted in the view (and covers more than the HMD FOV).
 
 To subjects has been asked (without being able to move but only to rotate their heads around, since image no longer responds to real body movements) how immersed in the scene they felt, even though the scene was only composed of the undistorted fish-eye image.
 

@@ -19,9 +19,13 @@ A direct consequence of the project initial setup (we are referring to the relev
 
 Speaking of enhancing the virtual reality side, amateur developer community is quite active in these years [?] on experimenting with VR HMDs and the proprietary device Leap Motion, which allows to track user hands and recognize gestures with minimal effort. Adding such feature (with minimal research required) would unlock direct interaction between user and virtual world and, in turn, augmented real world.
 
-The development possibilities expressed so far are easy to implement in theory but may not be easy to return the expected results in terms of performance. As our experiments on NPR have shown, it requires a even more optimized elaboration pipeline to guarantee high frame rates at high resolutions. The available option, partially 
+The development possibilities expressed so far are not hard to implement in theory but may not easily return the expected results in terms of performance. As our experiments on NPR have shown, it requires a even more optimized elaboration pipeline to guarantee high frame rates at high resolutions. The available option, partially traversed in our work with the help of OpenCV support, is to implement most of the computer vision pipeline in GPGPU, exploiting more graphic cards at time if possible.
+
+Lastly, a practical suggestion is dispensed to readers interested in robotics, especially ones intrigued by possible implications of this work for tele-presence and tele-operation applications, hinted various times in this text. Current implementation is based on Ogre3D framework (which is the standard used by ROS) and video stream capturing and synchronization has been kept separate with care from main application so that it can be easily replaced (or reimplemented) using ROS nodes. We feel confident that main application, which also handles virtual scene and HMD logic separately, can be implemented as a ROS node with sufficient knowledge of its architecture.
 
 \iffalse
+\section{Performance and experience optimizations}
+
 \subsection{Employing ultra-wide Fish-eye lenses}
 Increased percieved FOV \\
 Decouple from camera FPS\\
@@ -33,11 +37,9 @@ Decouple from camera FPS\\
 \subsection{"Mono" mode}
 
 \subsection{Virtual nose}
-\fi
 
 \section{Further development}
 
-\iffalse
 \subsection{Depth mapping with CUDA, stereo computer vision or depth sensor}
 
 \subsection{Enhancing interactions with virtual hands with Leap Motion}
