@@ -1,0 +1,62 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[colorlinks=true,urlcolor=blue,citecolor=blue,linkcolor=blue,bookmarks=false]{hyperref}
+\usepackage[pdftex]{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.gif}
+\usepackage{xspace}
+\usepackage[top=2.5cm,bottom=2.5cm,left=1.5cm,right=1.5cm]{geometry}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[font={small}]{caption}
+\usepackage{amsmath}
+
+\begin{document}
+\begin{tabular}{ll}
+\multirow{4}{*}{\includegraphics[scale=0.5]{logo.png}} & \textbf{POLITECNICO DI TORINO} \\[0.5em]
+& \textsc{Collegio di Ingegneria Informatica, del Cinema e Meccatronica} \\[0.5em]
+& \textbf{Corso di Laurea in Ingegneria Informatica} \\[0.5em]
+& \textbf{Tesi di Laurea Magistrale} \\[0.7em]
+\midrule \\
+\multicolumn{2}{p{0.9\linewidth}}{\textbf{Title:} The challenges of immersive stereo augmented reality in wide field of view video head mounted displays} \\[0.5em]
+\multicolumn{2}{l}{\textbf{Advisor:} Prof. Andrea Bottino} \\[0.5em]
+\multicolumn{2}{l}{\textbf{External Advisor:} Prof. Carl Henrik Ek} \\[0.5em]
+\multicolumn{2}{l}{\textbf{Candidate:} Dario Facchini} \\[2em]
+\multicolumn{2}{c}{\textbf{\LARGE Summary}}
+%\multicolumn{2}{p{\linewidth}}{}
+\end{tabular} \\[1.2em] \par
+The subject of this thesis has been developed in the Computer Vision and Active Perception (CVAP) laboratories of the KTH Royal Institute of Technology in Stockholm. \par
+In recent years, two of the most popular and remunerative mass entertainment media nowadays are games and movies. They happen to have very much in common on how they are perceived by consumers today, even though they belong to very different traditions: cinema was born for telling carefully prefabricated stories meanwhile gaming was born with interaction and reaction at its core. Needless to say, with the advent of modern techniques research and technologies, especially regarding how images are perceived and what can transmit to human observers, they inevitably started crossing their paths in a war where each one wanted to be a little more of the other. Today the focus is on the battle for "immersivity", a term describing the challenge to achieve more plausibly involving experiences generated from imaging content that gets more synthetic every. Virtual reality provides its answers to the trend, striving to find new ways to push virtual experiences as close as possible to real. Under the façade of entertaining industry, the previously mentioned philosophies owe their success to fields that stretch from photography and optics to computer graphics and parallel computation. \par
+The less publicly popular branch of computer vision has instead been researching how computationally relevant features can be extracted from real world imagery and put use to it by giving machines comprehension of what is happening around them. Final goal is to support also humans in various tasks where imaging devices are involved, but still computer vision does not focus on better ways to deliver it to end users. Recent marriage of computer vision and virtual reality gave birth to Augmented Reality (AR), a step forward on this matter: target applications would provide more intuitive, interactive and integrated human-machine interfaces, coherently with the world observed.\par
+is where all mentioned features find a place in applications where contact with real world is severed or hijacked and how visual coherence can be enhanced the other way around; the field of studies where human perception is involved can extend its applications from more immersive AR tele-presence to actual artificially improved human perception capabilities. In this work we investigate the challenges of immersive AR by means of a stereoscopic, wide field-of-view (FOV) head-mounted display (HMD) and subsequent realization of see-through with cameras.
+
+This thesis has been developed in the robotics laboratories of the KTH Royal Institute of Technology in Stockholm. \par
+Nowadays, the action execution of a robot is often described by means of Finite State Machines (FMSs) (or in case Hierarchical Finite State Machines (HFSMs)). These two frameworks provide a very general approach to the high-level control problem but they become too complex and unmanageable when dealing with fully reactive behaviors (i.e. their graph is almost fully connected). Meanwhile, Behavior Trees (BTs) have become a valid alternative to FSMs and HFSMs in computer games and robotic communities. Their main advantage lies in modularity, which allows us to describe reactive systems in a compact and straightforward fashion. We have developed a high-level control system based on BTs that allows a robot to achieve a given goal. We have then analyzed some structural properties of the overall systems (e.g. safety, robustness, etc\dots) as well as providing assumptions which these properties hold. Finally, we have implemented the control system on two different types of robots (i.e. Aldebaran NAOs and KUKA Youbot) highlighting the platform independence of our approach. \par
+Mobile robots are becoming increasingly important in many applications: factories and warehouses use Autonomous Guided Vehicles (AGVs) to move loads from one check-point to another in the same facility, people are starting to use little autonomous mobile robots for house cleaning, and teleoperated search and rescue robots are becoming very popular in environments that may be dangerous or unfeasible for humans (e.g. small caves, buildings rubble, hazardous power stations, etc\dots). Moreover, mobile robots are also used to study space corps chemical compositions or to discover new planets. However, the autonomy degree of the previous examples is quite low: many robots still require a human teleoperator, and when they do not, they implement very simple Artificial Intelligence (AI) algorithms.
+Higher levels of robot autonomy (and therefore more complex and sophisticated AI algorithms) are desirable when teleoperations result unreliable or even impossible to perform (e.g. environments full of radiation and disturbances, etc\dots). In fact, many robot search and rescue missions have failed due to a lack of teleoperation signals, and many other robots have been lost in space due to poor implementation of the algorithms. \par
+We have proposed a framework for reactive robot navigation and action planning in cluttered environments and, in detail, we have come up with a Behavior Trees (BTs) based solution for robot autonomous navigation problems in structured environments (i.e. robots must safely reach a desired destination in a-priori known scenarios), and we have then extended it to different environments whereby unknown objects may be encountered. In this last case, we have considered either the possibility of ``rescuing'' the object (by making the robot carry it to the destination), or computing a new path by means of the Jump Point Search (JPS) algorithm, whenever it was impossible to grasp and carry the object. We have shown how BTs represent a great tool for the implementation of quite complex AI algorithms, and we have finally provided a few experimental results obtained in the real world. Our solution has been tested on two different robots: the Aldebaran NAO, a humanoid legged robot, and the KUKA Youbot, an omnidirectional wheeled robot. \par
+Since no frameworks were available, we have developed a C++ program that can be run into the ROS operating system and implements the BTs ticking and halting mechanisms. The code (available at \href{https://github.com/miccol/ROS-Behavior-Tree}{https://github.com/miccol/ROS-Behavior-Tree}) has been fully documented and a user manual is available at the same URL. The user is only asked to code the specific instructions that are needed for his/her purposes, the BT overall mechanisms have already been implemented and tested. \par
+As a middle layer control structure, thanks to their ticking and halting mechanisms, BTs have proved to be a good tool for the implementation of a switching control structure. In fact, ticks and halting messages can easily activate or deactivate controllers. Moreover, all the testing experiments carried out using the Youbot turned out to be satisfying both for safety (i.e.\ the robot will not collide with any obstacle) and reliability (i.e.\ no matter what goal or which obstacle is present in the manifold, if they are correctly spotted and the goal state is reachable, the robot will complete its mission). Our solution would also be suitable for different environment configurations in which, for example, the robot localization problem can not be solved with an eye-to-hand configuration (i.e.\ sensors that spot the robot position are not placed onboard the robot). In fact, it would be sufficient to simply change the single localization BT node in order to adapt the BT itself to the new environment configuration. By exploiting other possibilities, local path planning techniques may also be implemented using BTs. \par
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{pictures/navigation.png}
+\caption{A possible navigation scenario. The desired path goes from left to right and it is shown in green. The goal cell is colored in a brighter green. The robot positions are depicted as blue circles to represent the uncertainty on the measurements. On the last captured position, the robot shape and axis are shown. The red cells are occupied by obstacles.}
+\label{fig:navigation}
+\end{figure}
+The grasping operations performed by means of the BTs have resulted in being reliable, and, thanks to the BTs properties, this last reliability characteristic may also be proved (see Figure \ref{fig:grasping} for a graphical representation of our grasping BT). Although many sensors were missing in the Youbot arm, the proposed BT correctly reacts to grasping failures and, with the implementation of good active perception algorithms (that are not covered by this work), the presence of a tracking marker on the objects may not be needed anymore. Moreover, these perception algorithms may also be useful to understand if, due to a failing grasping operation, the object has moved or changed its pose (e.g.\ it has fallen on the ground, has rotated along one of its axis, etc\dots). This kind of information may be exploited to modify and improve the BT itself. Thanks to the BTs modularity property, adding all these improvements to the BT do not represent a complex operation.\par
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.75]{figures/bt_grasping.pdf}
+\caption{The proposed grasping BT.}
+\label{fig:grasping}
+\end{figure}
+Finally, in the context of this work, multi-agent configurations might be exploited by allowing the Youbot and NAO cooperate in order to achieve a given goal. For example, the Youbot might be used to ``clean'' the NAO path from the dynamic obstacles that may be encountered. Moreover, thanks to the BTs probabilistic formulation, performance analysis on the proposed BTs might be performed, and statistical and probabilistic data may be retrieved. \\ \\
+The overall manuscript is structured as follows:
+\begin{enumerate}
+\item The robot autonomous path and action planning problem is presented
+\item Solutions from the state of the art are reported highlighting their pros and cons
+\item Our solution for the task and the middle control layers is described
+\item Experimental results are reported
+\end{enumerate}
+Finally, in appendix, manuals for the developed BT software are included.\\
+\end{document}

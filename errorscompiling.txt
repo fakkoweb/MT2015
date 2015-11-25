@@ -1,0 +1,49 @@
+Q: WHY ISN'T THERE ONLY ONE SCRIPT THAT DOES ALL??
+A: I could install all I need locally and use it instead of asking you to install it.. but
+   a local version of cmake does not find all the libraries.. so at least update it!!
+Three major truths:
+- Ogre 1.9 to compile requires at least cmake 2.8.9
+- Ogre Dependencies require at least cmake 2.8.11
+- If you use a local user version of cmake, it won't find all system installed libraries
+If you are on a system running an older version of cmake, g++, boost and also you have no admin rights, follow this steps. Expect errors and retries.
+--------------ON ARAGORN (cmake 2.8.9 gcc 4.6 boost x.x.x no admin rights)-------------------
+Install locally 2.8.12 using script
+Make it default cmake by adding its variable (to run it)
+Open a new terminal (to detect it) and run dependencies script
+Move the local cmake from its current position, so a new terminal will find cmake 2.8.9
+If boost is too old: open Ogre install script and remove boost support (change it to 0 in the script)
+Open ANOTHER terminal (to detect 2.8.9) and run Ogre script
+If cmake 2.8.9 gives errors it is ok: check it found the needed libraries, which are now in cache, then:
+	move again the local version of cmake back to its position
+	run the lines of Ogre script manually from a new terminal from cmake line (it is in the script)
+	remove back again from the position the local cmake, so now 2.8.9 works again
+You have finally Ogre1.9 locally installed!
+
+ARUCO and OPENCV:
+- Compile the project with cmake 2.8.9
+- Change the used OpenCV to the local one
+----------------------------------------------------------------------------------------------
+TIPS:
+- do not delete sources of Ogre and Dependencies (you would need to go through all the steps again)
+- compile both Ogre versions (with and without boost)
+- you may encounter similar issues with all other local libraries (this is not really a tip, but use the steps above as a general guide)
+- close and reopen terminal when you encounter even stranger issues
+
+ERRORS:
+DO NOT COMPILE OGRE 1.9 WITH BOOST IF TOO OLD
+wierd errors with boost (used by Ogre or OpenCV)
+http://stackoverflow.com/questions/18900730/boostshared-ptrshared-ptrconst-boostshared-ptr-is-implicitly-declared
+ERROR ON gpu.hpp
+put "using namespace std;" at the beginning of the file
+http://stackoverflow.com/questions/26121604/opencv-2-4-9-compilation-error-with-cuda-6-5
+ERRORS WHILE COMPILING OCULUS SDK or ARUCO
+Use gcc 4.8 and flag c++11, specify it in cmake to be sure (easy if using a GUI)
+If does not work, delete cache and build directory, redo all configure from scratch
+
+
+OCULUS:
+(for this steps use the files included in libs/OculusSDK)
+https://www.reddit.com/r/oculus/comments/2rjklz/ubuntu_i_got_an_oculus_but_where_do_i_get_started/
+1 - "ConfigureDebian.sh" (needed to install dependencies and rules.d file for device)
+2 - service: "ovrd"
+3 - config: "RiftConfigUtil" (to set up profiles)
