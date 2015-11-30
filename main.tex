@@ -36,9 +36,12 @@
 % \documentclass[11pt,twoside,oldstyle,autoretitolo,classica,greek]{toptesi}
 % \usepackage[or]{teubner}
 
-\usepackage[latin1]{inputenc}% IMPORTANTE! usare codifica ISO-8859-1 per le lettere accentate
 \usepackage{amsmath}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{booktabs}
+%\usepackage[latin1]{inputenc}% IMPORTANTE! usare codifica ISO-8859-1 per le lettere accentate
 \usepackage[justification=centering]{caption}
+\usepackage{subcaption}
 %\DeclareCaptionFormat{myformat}{%
   % #1: label (e.g. "Table 1")
   % #2: separator (e.g. ": ")
@@ -73,12 +76,15 @@
 
 % Set default language (if not defined, then is "italiano"
 % To switch to other language DURING writing, use \selectlanguage{language}
-\english
 
 \input{commands/commands.tex}
-\input{sections/frontespizio/frontespizio.tex}
 
 \begin{document}
+\selectlanguage{english}
+
+\input{sections/frontespizio/frontespizio.tex}
+
+
 
 \errorcontextlines=9
 \expandafter\ifx\csname StileTrieste\endcsname\relax
@@ -132,7 +138,6 @@
 
 
 
-
 \iffalse
 
 Discutere in questo capitolo come � stata progettata la soluzione al problema trattato nella tesi, indicando anche se sono stati valutati vari possibili approcci o soluzioni pre-esistenti e giustificando le proprie scelte. Descrivere quindi la soluzione vera e propria.
@@ -157,6 +162,5 @@ Qui si inseriscono brevi conclusioni sul lavoro svolto, senza ripetere inutilmen
 Si possono evidenziare i punti di forza e quelli di debolezza, nonch� i possibili sviluppi futuri o attivit� da svolgere per migliorare i risultati.
 
 \fi
-
 
 \end{document}
