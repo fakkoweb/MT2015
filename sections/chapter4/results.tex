@@ -18,7 +18,7 @@ In this experiment we tested the behaviour of the application in wide-angle toed
 \item "toon shading" effect: showed off CUDA filtering capabilities and impact on performance and user perception in Non-PhotoRealistic rendering conditions.
 \end{itemize}
 
-To 20 subjects has been asked to walk around in a room with HMD on and to provide feedback, test demo configurations and experience 3D perception when watching the marker static or manipulating it. To better understand how video see-through and immersive AR experience can be improved, the application has been structured in steps (figure \ref{demo_steps}). The first step has four configurations, starting from the bare minimum image visualization: subjects can freely switch between each other on personal preference and provide personal opinion and express discomfort, if any. Users were specifically asked to rotate their head around to identify the difference between stabilized and non-stabilized mode and then move on with activating the skybox.
+To 20 subjects has been asked to walk around in a room with HMD on and to provide feedback, test demo configurations and experience 3D perception when watching the marker static or manipulating it. To better understand how video see-through and immersive AR experience can be improved, the application has been structured in steps (figure \ref{fig:demo_steps}). The first step has four configurations, starting from the bare minimum image visualization: subjects can freely switch between each other on personal preference and provide personal opinion and express discomfort, if any. Users were specifically asked to rotate their head around to identify the difference between stabilized and non-stabilized mode and then move on with activating the skybox.
 
 \begin{figure}
 \centering
@@ -31,16 +31,16 @@ Once most confortable setup is chosen, the marker is placed in view and is given
 
 As final bonus, the effect pipeline was activated (with toon shading embedded in the demo). Final resolution of “cartoonized” camera image was chosen so that it was the closest to the original and achieved lower framerate. This way, subjects could both experience NPR environment and be exposed to the impact on performance with the chosen configuration. As algorithm stabilization still worked well, since it merely reproduces original image pose and time capture estimation did not change, but all subject noticed image plane additional jerking and found it discomforting. However, we do not suggest to implement any kind of interpolation: this would make plane move more smoothly, but the image will still remain static and the mismatch we worked hard to remove will again be there. Instead, cameras with a higher FOV should be used in order to hide completely image borders.
 
-We have classified (in figure \ref{demo_subject_class}) the users which span from highly sensitive (which means they have preemptively declared they had past experiences with HMDs and VR or stereo content, not satisfactory) to people entirely new to the subject.
+We have classified (in table \ref{demo_subject_classes}) the users which span from highly sensitive (which means they have preemptively declared they had past experiences with HMDs and VR or stereo content, not satisfactory) to people entirely new to the subject.
 
 \begin{table}[]
 \centering
-\label{demo_subject_classes}
 \begin{tabular}{llll}
 Class 1                                                                          & Class 2                                                                          & Class 3                                                                           & Class 4                                                                          \\
 \multicolumn{1}{c}{\cellcolor[HTML]{FFBCA4}{\color[HTML]{E10000} \textbf{3/20}}} & \multicolumn{1}{c}{\cellcolor[HTML]{FFD453}{\color[HTML]{F56B00} \textbf{4/20}}} & \multicolumn{1}{c}{\cellcolor[HTML]{9AFF99}{\color[HTML]{009901} \textbf{10/20}}} & \multicolumn{1}{c}{\cellcolor[HTML]{ECF4FF}{\color[HTML]{6434FC} \textbf{3/20}}}
 \end{tabular}
 \caption{Subjects classified on previous experience with Oculus Rift. Class 1: have tried and experience sickness; Class 2: have tried and could withstand; Class 3: have never tried, but report to be gamers; Class 4: have never tried and have no gaming habits.}
+\label{demo_subject_classes}
 \end{table}
 
 The premise is the experiment could be considered a success whenever the majority of subjects voted for the expected preferred configuration. Keep in mind that, for technical limitations, the setup presented was using toed-in pin-hole camera model and wide-angle lenses, so not the best according to what discussed so far. The results are however still relevant considering that toe-in is still a common configuration, for stereo computer vision (reasonably) and stereo imaging reproduction (erroneously). Since a focus for future stereo computer vision algorithms development is given, we welcome the level of challenge of optical issues involved.

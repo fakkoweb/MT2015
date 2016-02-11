@@ -71,7 +71,7 @@
 % per numerare e far comparire nell'indice anche le sezioni di quarto livello
 % SCONSIGLIATO! da usarsi solo in caso di estrema necessit�
 \setcounter{secnumdepth}{4}% section-numbering-depth
-\setcounter{tocdepth}{4}% TOC-numbering-depth (TOC=Table-Of-Content)
+%\setcounter{tocdepth}{3}% TOC-numbering-depth (TOC=Table-Of-Content)
 %\setbindingcorrection{3mm}
 
 % Set default language (if not defined, then is "italiano"
@@ -88,6 +88,7 @@
 
 \errorcontextlines=9
 \expandafter\ifx\csname StileTrieste\endcsname\relax
+\vspace{3cm}
     \frontespizio
 \else
     \paginavuota
@@ -101,12 +102,18 @@
 
 % COMMENT OUT TO REMOVE THE FOLLOWING SECTIONS
 
+
+\paginavuota
+
 % prints summary of the content
 \input{sections/summary/summary.tex}
+
+\paginavuota
 
 % prints acknowledgements and special thanks
 \input{sections/ack/acknowledgements.tex}
 
+\paginavuota
 
 %\tablespagetrue % normalmente questa riga non serve ed e' commentata
 %\figurespagetrue % normalmente questa riga non serve ed e' commentata
@@ -132,6 +139,8 @@
 
 \chapter{Conclusions and future work}
 \input{sections/chapter5/conclusions.tex}
+
+\paginavuota
 
 % print bibliography
 \input{sections/biblio/bibliography.tex}
